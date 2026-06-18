@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AGB Recruiting</title>
+<title>KBGB Recruiting</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -171,7 +171,7 @@ function renderLanding() {
   return `
   <div class="min-h-screen flex flex-col">
     <header class="bg-gray-900 text-white px-6 py-4 flex items-center justify-between">
-      <span class="font-bold text-lg tracking-tight">AGB Recruiting</span>
+      <span class="font-bold text-lg tracking-tight">KBGB Recruiting</span>
       <button onclick="navigate('login')" class="text-sm bg-white text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">Acceso privado</button>
     </header>
 
@@ -278,7 +278,7 @@ function renderPanel() {
   return `
   <div class="min-h-screen flex flex-col">
     <header class="bg-gray-900 text-white px-4 py-3 flex items-center justify-between sticky top-0 z-30">
-      <span class="font-bold text-sm tracking-tight">AGB Recruiting</span>
+      <span class="font-bold text-sm tracking-tight">KBGB Recruiting</span>
       <div class="flex items-center gap-3">
         <span class="text-xs text-gray-400">${App.user?.nombre||'—'} · ${App.user?.rol||'recruiter'}</span>
         <button onclick="doLogout()" class="text-xs text-gray-400 hover:text-white transition">Salir</button>
@@ -691,7 +691,7 @@ function kpiRow(label,value,bold=false) {
 function exportarKpis() {
   const k=App.data.kpis; if(!k) return;
   const vista=App.data.vistaPersona?` (${App.data.vistaPersona})`:'';
-  const texto=`📊 KPIs AGB Recruiting${vista}\n📅 ${new Date().toLocaleDateString('es-AR')}\n\n• Búsquedas activas: ${k.busquedas_activas}\n• Contratados del mes: ${k.contratados_mes}\n• Tasa de conversión: ${k.tasa_conversion??'—'}%\n• T° promedio cierre: ${k.tiempo_promedio_cierre_dias??'—'} días\n\n💰 Financiero\n• Cobrado (mes): ${fmtMoney(k.ingreso_cobrado_mes)}\n• Pipeline ponderado: ${fmtMoney(k.ingreso_pipeline_ponderado)}\n• Proyección: ${fmtMoney(k.proyeccion_mes)}`;
+  const texto=`📊 KPIs KBGB Recruiting${vista}\n📅 ${new Date().toLocaleDateString('es-AR')}\n\n• Búsquedas activas: ${k.busquedas_activas}\n• Contratados del mes: ${k.contratados_mes}\n• Tasa de conversión: ${k.tasa_conversion??'—'}%\n• T° promedio cierre: ${k.tiempo_promedio_cierre_dias??'—'} días\n\n💰 Financiero\n• Cobrado (mes): ${fmtMoney(k.ingreso_cobrado_mes)}\n• Pipeline ponderado: ${fmtMoney(k.ingreso_pipeline_ponderado)}\n• Proyección: ${fmtMoney(k.proyeccion_mes)}`;
   navigator.clipboard.writeText(texto).then(()=>showToast('Copiado al portapapeles ✓'));
 }
 
@@ -2395,52 +2395,88 @@ async function marcarCobrado(bid) {
   } else showToast(r.message||'Error','error');
 }
 
-function descargarNotasCandidato(id) {
+async function descargarNotasCandidato(id) {
   const c=App.data.candidatos.find(x=>x.id===id);
   if(!c) return;
   const b=App.data.busquedas.find(x=>x.id===c.busqueda_id)||{};
-  const allItems=[
-    ...tryJSON(b.must_haves,[]),
-    ...tryJSON(b.nice_to_haves,[]),
-    ...tryJSON(b.red_flags,[])
-  ];
-  const sc=tryJSON(c.scorecard,{});
-  const confirmados=allItems.filter(mh=>sc[mh]==='si');
+  showToast('Generando brief con IA...');
+  let resumen='';
+  try {
+    const r=await apiPost({action:'brief_candidato',data:{
+      nombre:c.nombre, puesto:b.puesto||'', cliente:b.cliente||'',
+      seniority:b.seniority||'', modalidad:b.modalidad||'',
+      must_haves:b.must_haves||'', criterio_si:b.criterio_si||'',
+      resumen_ejecutivo:c.resumen_ejecutivo||'',
+      cv_score_pros:c.cv_score_pros||'', notas:c.notas||''
+    }});
+    if(r.status==='ok') resumen=r.data.resumen||'';
+  } catch(e) {}
+  const fecha=new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'long',year:'numeric'});
   const html=`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${c.nombre} — ${b.puesto||''}</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#111;padding:48px;max-width:720px;margin:0 auto}
-.header{border-bottom:3px solid #111;padding-bottom:20px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-start}
-.name{font-size:26px;font-weight:800;margin-bottom:3px}.sub{color:#666;font-size:14px}
-.logo{font-size:13px;font-weight:700;color:#111;text-align:right}.logo span{display:block;font-weight:400;color:#888;font-size:11px;margin-top:2px}
-.sec-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#9ca3af;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #f3f4f6}
-.section{margin-bottom:28px}
-.punto{padding:7px 0;border-bottom:1px solid #f3f4f6;font-size:13px;color:#333;display:flex;align-items:center;gap:8px}
-.punto:before{content:'✓';color:#16a34a;font-weight:700;flex-shrink:0}
-.notas-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:20px;white-space:pre-wrap;font-size:14px;line-height:1.8;color:#444;min-height:80px}
-.contact{font-size:13px;color:#555;line-height:2}
-.footer{margin-top:40px;padding-top:14px;border-top:1px solid #e5e7eb;color:#bbb;font-size:11px;display:flex;justify-content:space-between}
-[contenteditable]{outline:none;border-radius:4px}
-[contenteditable]:hover{background:#fffbeb}
-[contenteditable]:focus{background:#fffbeb;box-shadow:0 0 0 2px #fbbf24}
-.edit-hint{font-size:10px;color:#d1d5db;text-align:right;margin-bottom:20px}
-.print-btn{position:fixed;top:20px;right:20px;background:#111;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;z-index:99}
-@media print{.print-btn,.edit-hint{display:none}body{padding:24px}[contenteditable]:hover,[contenteditable]:focus{background:none;box-shadow:none}}</style>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#111;padding:52px;max-width:740px;margin:0 auto}
+.header{padding-bottom:22px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #111}
+.name{font-size:28px;font-weight:800;margin-bottom:4px;letter-spacing:-.5px}
+.sub{color:#555;font-size:14px;font-weight:500}
+.logo{text-align:right}.logo-name{font-size:14px;font-weight:800;letter-spacing:-.3px}
+.logo-date{font-size:11px;color:#999;margin-top:3px}
+.sec-title{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#aaa;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid #f0f0f0}
+.section{margin-bottom:30px}
+.resumen{font-size:14px;line-height:1.85;color:#333;min-height:60px}
+.comentarios{font-size:14px;line-height:1.85;color:#333;min-height:40px;white-space:pre-wrap}
+.disponibilidad{font-size:14px;line-height:1.85;color:#333;min-height:24px}
+.contact-row{display:flex;gap:8px;font-size:13px;color:#555;padding:5px 0;border-bottom:1px solid #f5f5f5;align-items:baseline}
+.contact-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#bbb;width:80px;flex-shrink:0}
+.footer{margin-top:48px;padding-top:14px;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center}
+.footer-left{font-size:11px;font-weight:700;color:#999}
+.footer-right{font-size:11px;color:#bbb}
+[contenteditable]{outline:none;border-radius:3px;min-width:20px;display:inline-block}
+[contenteditable]:hover{background:#fef9c3}
+[contenteditable]:focus{background:#fef9c3;box-shadow:0 0 0 2px #fbbf24}
+.block-edit{display:block;width:100%}
+.hint{font-size:10px;color:#d1d5db;text-align:right;margin-bottom:24px;font-style:italic}
+.print-btn{position:fixed;top:20px;right:20px;background:#111;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+@media print{.print-btn,.hint{display:none}body{padding:32px}[contenteditable]:hover,[contenteditable]:focus{background:none!important;box-shadow:none!important}}</style>
 </head><body>
-<button class="print-btn" onclick="window.print()">Imprimir / Guardar PDF</button>
-<p class="edit-hint">✏️ Podés hacer click en cualquier texto para editarlo antes de imprimir</p>
+<button class="print-btn" onclick="window.print()">Imprimir / PDF</button>
+<p class="hint">✏️ Hacé click en cualquier texto para editarlo antes de imprimir</p>
 <div class="header">
-  <div><div class="name" contenteditable="true">${c.nombre}</div><div class="sub" contenteditable="true">${b.puesto||''} · ${b.cliente||''}</div></div>
-  <div class="logo">AGB Recruiting<span>${new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'long',year:'numeric'})}</span></div>
+  <div>
+    <div class="name" contenteditable="true">${c.nombre}</div>
+    <div class="sub" contenteditable="true">${b.puesto||''} · ${b.cliente||''}</div>
+  </div>
+  <div class="logo">
+    <div class="logo-name">KBGB Recruiting</div>
+    <div class="logo-date">${fecha}</div>
+  </div>
 </div>
-${confirmados.length?`<div class="section"><div class="sec-title">Perfil del candidato</div>
-${confirmados.map(mh=>`<div class="punto" contenteditable="true">${mh}</div>`).join('')}</div>`:''}
-${c.notas?`<div class="section"><div class="sec-title">Comentarios</div><div class="notas-box" contenteditable="true">${c.notas}</div></div>`:''}
-<div class="section"><div class="sec-title">Datos de contacto</div><div class="contact">
-${c.contacto_email?`<div>Email: <strong contenteditable="true">${c.contacto_email}</strong></div>`:''}
-${c.contacto_telefono?`<div>Teléfono: <strong contenteditable="true">${c.contacto_telefono}</strong></div>`:''}
-${c.linkedin?`<div>LinkedIn: <strong contenteditable="true">${c.linkedin}</strong></div>`:''}
-${c.expectativa_salarial?`<div>Expectativa salarial: <strong contenteditable="true">${c.expectativa_salarial}</strong></div>`:''}
-</div></div>
-<div class="footer"><span>Confidencial — AGB Recruiting</span><span contenteditable="true">${b.cliente||''} · ${b.puesto||''}</span></div>
+
+<div class="section">
+  <div class="sec-title">Resumen del perfil</div>
+  <div class="resumen block-edit" contenteditable="true">${resumen||'(completar)'}</div>
+</div>
+
+<div class="section">
+  <div class="sec-title">Comentarios</div>
+  <div class="comentarios block-edit" contenteditable="true">${c.notas||'(completar)'}</div>
+</div>
+
+<div class="section">
+  <div class="sec-title">Disponibilidad para entrevista</div>
+  <div class="disponibilidad block-edit" contenteditable="true">${c.disponibilidad||'A confirmar'}</div>
+</div>
+
+<div class="section">
+  <div class="sec-title">Datos de contacto</div>
+  ${c.contacto_email?`<div class="contact-row"><span class="contact-lbl">Email</span><span contenteditable="true">${c.contacto_email}</span></div>`:''}
+  ${c.contacto_telefono?`<div class="contact-row"><span class="contact-lbl">Teléfono</span><span contenteditable="true">${c.contacto_telefono}</span></div>`:''}
+  ${c.linkedin?`<div class="contact-row"><span class="contact-lbl">LinkedIn</span><span contenteditable="true">${c.linkedin}</span></div>`:''}
+  ${c.expectativa_salarial?`<div class="contact-row"><span class="contact-lbl">Expectativa</span><span contenteditable="true">${c.expectativa_salarial}</span></div>`:''}
+</div>
+
+<div class="footer">
+  <span class="footer-left">KBGB Recruiting</span>
+  <span class="footer-right" contenteditable="true">${b.cliente||''} · ${b.puesto||''}</span>
+</div>
 </body></html>`;
   const win=window.open('','_blank');
   win.document.write(html);
