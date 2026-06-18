@@ -2390,22 +2390,16 @@ function descargarNotasCandidato(id) {
   const b=App.data.busquedas.find(x=>x.id===c.busqueda_id)||{};
   const mustHaves=tryJSON(b.must_haves,[]);
   const sc=tryJSON(c.scorecard,{});
-  const scoreColor=Number(c.cv_score)>=7?'#16a34a':Number(c.cv_score)>=5?'#ca8a04':'#dc2626';
-  const html=`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Notas — ${c.nombre}</title>
+  const html=`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${c.nombre} — ${b.puesto||''}</title>
 <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#111;padding:48px;max-width:720px;margin:0 auto}
 .header{border-bottom:3px solid #111;padding-bottom:20px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-start}
 .name{font-size:26px;font-weight:800;margin-bottom:3px}.sub{color:#666;font-size:14px}.badge{display:inline-block;background:#f3f4f6;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;margin-top:8px;border:1px solid #e5e7eb}
 .logo{font-size:13px;font-weight:700;color:#111;text-align:right}.logo span{display:block;font-weight:400;color:#888;font-size:11px;margin-top:2px}
 .sec-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#9ca3af;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #f3f4f6}
 .section{margin-bottom:24px}
-.score-box{background:#f9fafb;border-radius:12px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border:1px solid #e5e7eb}
-.score-num{font-size:40px;font-weight:900;color:${scoreColor}}
-.pros-contras{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
-.pro{color:#15803d;font-size:13px;line-height:1.7}.contra{color:#b91c1c;font-size:13px;line-height:1.7}
-.list-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
 .mh-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f9fafb;font-size:13px}
 .si{color:#15803d;font-weight:600}.no{color:#b91c1c;font-weight:600}.quizas{color:#b45309;font-weight:600}
-.notas-box{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:20px;white-space:pre-wrap;font-size:14px;line-height:1.8;color:#444;min-height:100px}
+.notas-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:20px;white-space:pre-wrap;font-size:14px;line-height:1.8;color:#444;min-height:100px}
 .contact{font-size:13px;color:#555;line-height:1.8}
 .footer{margin-top:40px;padding-top:14px;border-top:1px solid #e5e7eb;color:#bbb;font-size:11px;display:flex;justify-content:space-between}
 @media print{body{padding:24px}}</style></head><body>
@@ -2413,22 +2407,15 @@ function descargarNotasCandidato(id) {
   <div><div class="name">${c.nombre}</div><div class="sub">${b.puesto||''} · ${b.cliente||''}</div><div class="badge">${c.etapa||''}</div></div>
   <div class="logo">AGB Recruiting<span>${new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'long',year:'numeric'})}</span></div>
 </div>
-${c.cv_score?`<div class="section"><div class="sec-title">Score IA</div>
-<div class="score-box"><div><div style="font-size:14px;font-weight:600;margin-bottom:4px">Evaluación del perfil</div>${c.cv_score_justificacion?`<div style="font-size:12px;color:#666;max-width:480px">${c.cv_score_justificacion}</div>`:''}</div>
-<div class="score-num">${c.cv_score}/10</div></div>
-${(c.cv_score_pros||c.cv_score_contras)?`<div class="pros-contras">
-${c.cv_score_pros?`<div><div class="list-lbl" style="color:#15803d">✓ A favor</div>${toArr(c.cv_score_pros).map(p=>`<div class="pro">• ${p}</div>`).join('')}</div>`:''}
-${c.cv_score_contras?`<div><div class="list-lbl" style="color:#b91c1c">✗ En contra</div>${toArr(c.cv_score_contras).map(p=>`<div class="contra">• ${p}</div>`).join('')}</div>`:''}
-</div>`:''}</div>`:''}
-${mustHaves.length?`<div class="section"><div class="sec-title">Scorecard — Must-haves</div>
-${mustHaves.map(mh=>{const v=sc[mh];const lbl=v==='si'?`<span class="si">✓ Sí</span>`:v==='no'?`<span class="no">✗ No</span>`:v==='quizas'?`<span class="quizas">? Quizás</span>`:`<span style="color:#ddd">—</span>`;return`<div class="mh-row"><span>${mh}</span>${lbl}</div>`;}).join('')}</div>`:''}
-<div class="section"><div class="sec-title">📝 Notas de entrevista</div><div class="notas-box">${c.notas||'(sin notas)'}</div></div>
-${c.contacto_email||c.contacto_telefono||c.expectativa_salarial?`<div class="section"><div class="sec-title">Datos de contacto</div><div class="contact">
+${mustHaves.length?`<div class="section"><div class="sec-title">Evaluación de requisitos</div>
+${mustHaves.map(mh=>{const v=sc[mh];const lbl=v==='si'?`<span class="si">✓ Sí</span>`:v==='no'?`<span class="no">✗ No</span>`:v==='quizas'?`<span class="quizas">? A confirmar</span>`:`<span style="color:#ccc">—</span>`;return`<div class="mh-row"><span>${mh}</span>${lbl}</div>`;}).join('')}</div>`:''}
+${c.notas?`<div class="section"><div class="sec-title">Comentarios</div><div class="notas-box">${c.notas}</div></div>`:''}
+<div class="section"><div class="sec-title">Datos de contacto</div><div class="contact">
 ${c.contacto_email?`<div>Email: <strong>${c.contacto_email}</strong></div>`:''}
 ${c.contacto_telefono?`<div>Teléfono: <strong>${c.contacto_telefono}</strong></div>`:''}
-${c.linkedin?`<div>LinkedIn: ${c.linkedin}</div>`:''}
+${c.linkedin?`<div>LinkedIn: <strong>${c.linkedin}</strong></div>`:''}
 ${c.expectativa_salarial?`<div>Expectativa salarial: <strong>${c.expectativa_salarial}</strong></div>`:''}
-</div></div>`:''}
+</div></div>
 <div class="footer"><span>Confidencial — AGB Recruiting</span><span>${b.cliente||''} · ${b.puesto||''}</span></div>
 </body></html>`;
   const win=window.open('','_blank');
