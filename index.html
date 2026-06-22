@@ -854,7 +854,7 @@ function renderKanbanCol(etapa, candidatos, bid, busqueda, todas) {
           ${c.expectativa_salarial?`<p class="text-xs text-gray-400 mt-1">💰 ${c.expectativa_salarial}</p>`:''}
           ${dots}
           ${mustHaves.length?`<p class="text-xs text-gray-400 mt-1">${siCount}/${mustHaves.length} must-haves ✓</p>`:''}
-          ${(()=>{const t=String(c.contacto_telefono||'').replace(/\D/g,'');if(!t)return'';const msg=buildWaMensajePrimerContacto(c,b);return `<a href="https://wa.me/${t}?text=${encodeURIComponent(msg)}" target="_blank" onclick="event.stopPropagation()" class="mt-2 inline-flex items-center gap-1 text-xs text-green-600 font-medium hover:text-green-700">💬 WA</a>`;})()}
+          ${(()=>{const t=String(c.contacto_telefono||'').replace(/\D/g,'');if(!t)return'';const msg=buildWaMensajePrimerContacto(c,b);return `<button onclick="event.stopPropagation();abrirWaConMensaje('${t}',${JSON.stringify(msg)})" class="mt-2 inline-flex items-center gap-1 text-xs text-green-600 font-medium hover:text-green-700">💬 WA</button>`;})()}
         </div>`;
       }).join('')}
     </div>
@@ -1758,6 +1758,10 @@ async function submitEditCandidato(e,id) {
   else showToast(r.message||'Error','error');
 }
 
+function abrirWaConMensaje(tel,msg) {
+  if (msg) navigator.clipboard.writeText(msg).then(()=>showToast('Mensaje copiado — pegalo con Cmd+V en el chat 📋'));
+  window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg||'')}`,'_blank');
+}
 function buildWaMensajePrimerContacto(c,b) {
   const primerNombre=(c.nombre||'').trim().split(/\s+/)[0]||'';
   if (b.mensaje_conexion) return b.mensaje_conexion;
@@ -1831,7 +1835,7 @@ function modalVerCandidato(id) {
     </div>`:''}
 
     <div class="flex flex-wrap gap-2 mb-4">
-      ${tel?`<a href="https://wa.me/${tel}?text=${encodeURIComponent(waMensaje)}" target="_blank" class="flex items-center gap-1.5 text-sm px-4 py-2 bg-green-500 text-white rounded-xl font-medium hover:bg-green-600 transition">💬 WhatsApp</a>`:''}
+      ${tel?`<button onclick="abrirWaConMensaje('${tel}',${JSON.stringify(waMensaje)})" class="flex items-center gap-1.5 text-sm px-4 py-2 bg-green-500 text-white rounded-xl font-medium hover:bg-green-600 transition">💬 WhatsApp</button>`:''}
       ${c.contacto_email?`<a href="mailto:${c.contacto_email}" class="flex items-center gap-1.5 text-sm px-4 py-2 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition">✉️ Email</a>`:''}
       ${c.linkedin?`<a href="${c.linkedin.startsWith('http')?c.linkedin:'https://'+c.linkedin}" target="_blank" class="flex items-center gap-1.5 text-sm px-4 py-2 bg-blue-50 text-blue-700 rounded-xl font-medium hover:bg-blue-100 transition">in LinkedIn</a>`:''}
       ${c.cv_pdf_url?`<a href="${c.cv_pdf_url}" target="_blank" class="flex items-center gap-1.5 text-sm px-4 py-2 bg-amber-50 text-amber-700 border border-amber-100 rounded-xl font-medium hover:bg-amber-100 transition">📄 Ver CV</a>`:''}
@@ -3077,7 +3081,7 @@ function modalTemplateMensaje(id) {
     <div class="flex gap-2 mb-4">
       <button onclick="saveTemplateMensaje('${etapa}',document.getElementById('templateTextarea').value,App.data.candidatos.find(x=>x.id==='${id}'),App.data.busquedas.find(x=>x.id==='${c.busqueda_id}')||{});showToast('Template guardado ✓')" class="flex-1 py-2.5 border border-gray-300 text-gray-700 rounded-xl text-sm font-medium hover:bg-gray-50 transition">💾 Guardar template</button>
       <button onclick="navigator.clipboard.writeText(document.getElementById('templateTextarea').value);showToast('Copiado ✓')" class="flex-1 py-2.5 bg-gray-900 text-white rounded-xl text-sm font-semibold hover:bg-gray-700 transition">Copiar</button>
-      ${tel?`<a href="javascript:void(0)" onclick="window.open('https://wa.me/${tel}?text='+encodeURIComponent(document.getElementById('templateTextarea').value),'_blank')" class="flex-1 py-2.5 bg-green-500 text-white rounded-xl text-sm font-semibold hover:bg-green-600 transition text-center">💬 WhatsApp</a>`:''}
+      ${tel?`<button onclick="abrirWaConMensaje('${tel}',document.getElementById('templateTextarea').value)" class="flex-1 py-2.5 bg-green-500 text-white rounded-xl text-sm font-semibold hover:bg-green-600 transition text-center">💬 WhatsApp</button>`:''}
     </div>
     <div class="border-t border-gray-100 pt-3">
       <p class="text-xs text-gray-400 mb-2">Otros templates</p>
