@@ -30,7 +30,7 @@
 // ═══════════════════════════════════════════════════════════════
 const WEBHOOK = 'https://script.google.com/macros/s/AKfycbzj2Zq3GtWCx_hZ-MduYa3lERAjxyXwztXJJQmnxeF8Z-MUb0eRu2oGEqpfXWR1ca6kBw/exec';
 
-const ETAPAS = ['Interesado a contactar','Enviado al cliente','Presentado','1ra entrevista cliente','2da entrevista cliente','Oferta','Contratado'];
+const ETAPAS = ['Contactados','Entrevistados','Presentados','1ra entrevista cliente','2da entrevista cliente','Oferta','Contratado'];
 const ETAPAS_EXTRA = ['On hold','Descartado'];
 const TODAS_ETAPAS = [...ETAPAS, ...ETAPAS_EXTRA];
 
@@ -473,7 +473,7 @@ function renderDashboard() {
   })();
 
   // Por búsqueda: cuántos candidatos activos y en qué mejor etapa
-  const ORDEN_ETAPA=['Contratado','Oferta','2da entrevista cliente','1ra entrevista cliente','Enviado al cliente','Presentado','En proceso de contacto','Interesado a contactar'];
+  const ORDEN_ETAPA=['Contratado','Oferta','2da entrevista cliente','1ra entrevista cliente','Presentados','Entrevistados','Contactados'];
   const resumenBusquedas=activas.map(b=>{
     const cands=candidatos.filter(c=>c.busqueda_id===b.id&&c.etapa!=='Descartado');
     const mejorEtapa=cands.length?ORDEN_ETAPA.find(e=>cands.some(c=>c.etapa===e))||cands[0].etapa:null;
@@ -940,7 +940,7 @@ function calcFeeClient(b) {
 }
 
 // Probabilidad por etapa × exclusividad
-const PROB_ETAPA = {'Interesado a contactar':0.05,'En proceso de contacto':0.08,'Presentado':0.15,'Enviado al cliente':0.22,'1ra entrevista cliente':0.40,'2da entrevista cliente':0.65,'Oferta':0.88,'Contratado':1};
+const PROB_ETAPA = {'Contactados':0.05,'Entrevistados':0.10,'Presentados':0.18,'1ra entrevista cliente':0.40,'2da entrevista cliente':0.65,'Oferta':0.88,'Contratado':1};
 function calcPipelineProb(busquedas, candidatos) {
   // Por cada búsqueda activa con fee, suma fee × prob_etapa × factor_exclusividad
   let total=0;
@@ -1775,7 +1775,7 @@ function modalVerCandidato(id) {
   const sc=tryJSON(c.scorecard,{});
   const tel=String(c.contacto_telefono||'').replace(/\D/g,'');
   const waMensaje=buildWaMensajePrimerContacto(c,b);
-  const etapaColor={'Interesado a contactar':'bg-blue-100 text-blue-700','Contactado':'bg-indigo-100 text-indigo-700','Entrevista AGB':'bg-purple-100 text-purple-700','Entrevista cliente':'bg-yellow-100 text-yellow-700','2da entrevista cliente':'bg-orange-100 text-orange-700','Oferta':'bg-green-100 text-green-700','Contratado':'bg-green-200 text-green-800','Descartado':'bg-red-100 text-red-700'};
+  const etapaColor={'Contactados':'bg-blue-100 text-blue-700','Entrevistados':'bg-purple-100 text-purple-700','Presentados':'bg-indigo-100 text-indigo-700','1ra entrevista cliente':'bg-yellow-100 text-yellow-700','2da entrevista cliente':'bg-orange-100 text-orange-700','Oferta':'bg-green-100 text-green-700','Contratado':'bg-green-200 text-green-800','On hold':'bg-yellow-50 text-yellow-600','Descartado':'bg-red-100 text-red-700'};
   const etapaStyle=etapaColor[c.etapa]||'bg-gray-100 text-gray-600';
 
   const scorecardHtml=mustHaves.length?`
@@ -2868,15 +2868,15 @@ ${(()=>{
 }
 
 const TEMPLATES_BASE = {
-  'Interesado a contactar': {
+  'Contactados': {
     titulo: 'WhatsApp — Primer contacto (vienen de LinkedIn)',
     mensaje: (c,b,u) => `Hola ${c.nombre?.split(' ')[0]}! Soy ${u||'yo'}, hablamos por LinkedIn por una búsqueda de ${b.puesto||'un rol'} en ${b.cliente||'una empresa'}. ¿Tenés unos minutos para que te llame y te cuente más del rol?`
   },
-  'Enviado al cliente': {
-    titulo: 'Aviso al candidato — CV presentado',
-    mensaje: (c,b,u) => `Hola ${c.nombre?.split(' ')[0]}! Te cuento que presenté tu perfil al equipo de ${b.cliente||'la empresa'} para el rol de ${b.puesto||'la posición'}. Están revisando los perfiles esta semana, cualquier novedad te aviso! 🙌`
+  'Entrevistados': {
+    titulo: 'Aviso al candidato — después de la entrevista propia',
+    mensaje: (c,b,u) => `Hola ${c.nombre?.split(' ')[0]}! Gracias por el tiempo de hoy, fue un gusto conocerte mejor. Voy a presentar tu perfil al equipo de ${b.cliente||'la empresa'} para el rol de ${b.puesto||'la posición'}, cualquier novedad te aviso! 🙌`
   },
-  'Presentado': {
+  'Presentados': {
     titulo: 'Confirmación de interés del cliente',
     mensaje: (c,b,u) => `Hola ${c.nombre?.split(' ')[0]}! Buenas noticias — ${b.cliente||'el cliente'} revisó tu perfil y quiere conocerte para el rol de ${b.puesto||'la posición'}. ¿Cómo tenés la agenda esta semana para coordinar?`
   },
@@ -3047,7 +3047,7 @@ async function toggleScoreMic(id) {
 
 function getTemplateMensaje(etapa, c, b) {
   const u = App.user?.nombre || '';
-  const tmpl = TEMPLATES_BASE[etapa] || TEMPLATES_BASE['Interesado a contactar'];
+  const tmpl = TEMPLATES_BASE[etapa] || TEMPLATES_BASE['Contactados'];
   const lsKey = 'tmpl_' + etapa;
   const saved = localStorage.getItem(lsKey);
   if (saved) return saved.replace(/\{nombre\}/g, c.nombre?.split(' ')[0]||'').replace(/\{puesto\}/g, b.puesto||'').replace(/\{cliente\}/g, b.cliente||'').replace(/\{recruiter\}/g, u);
@@ -3069,8 +3069,8 @@ function modalTemplateMensaje(id) {
   const c=App.data.candidatos.find(x=>x.id===id);
   if(!c) return '<div class="p-6">No encontrado</div>';
   const b=App.data.busquedas.find(x=>x.id===c.busqueda_id)||{};
-  const etapa=c.etapa||'Interesado a contactar';
-  const tmpl=TEMPLATES_BASE[etapa]||TEMPLATES_BASE['Interesado a contactar'];
+  const etapa=c.etapa||'Contactados';
+  const tmpl=TEMPLATES_BASE[etapa]||TEMPLATES_BASE['Contactados'];
   const msg=getTemplateMensaje(etapa,c,b);
   const tel=String(c.contacto_telefono||'').replace(/\D/g,'');
   return `<div class="p-6">
