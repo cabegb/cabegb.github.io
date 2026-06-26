@@ -2665,7 +2665,10 @@ async function enviarMensajeSourcing(bid) {
 
     let reply;
     if (r.status === 'ok') {
-      reply = typeof r.data === 'string' ? r.data : (r.data?.respuesta || 'Listo, actualicé lo que pediste.');
+      if (typeof r.data === 'string') reply = r.data;
+      else if (typeof r.data?.respuesta === 'string' && r.data.respuesta.trim()) reply = r.data.respuesta;
+      else if (r.data?.respuesta) reply = JSON.stringify(r.data.respuesta, null, 2);
+      else reply = 'Listo, actualicé lo que pediste.';
     } else {
       reply = 'Error: ' + (r.message || 'no se pudo responder');
     }
