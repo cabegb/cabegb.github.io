@@ -2663,8 +2663,13 @@ async function enviarMensajeSourcing(bid) {
       history: App._sourcingCtx.history,
     }});
 
-    const reply = r.status === 'ok' ? (r.data.respuesta || r.data) : 'Error: ' + (r.message || 'no se pudo responder');
-    const updates = (r.status === 'ok' && r.data.updates) ? r.data.updates : {};
+    let reply;
+    if (r.status === 'ok') {
+      reply = typeof r.data === 'string' ? r.data : (r.data?.respuesta || 'Listo, actualicé lo que pediste.');
+    } else {
+      reply = 'Error: ' + (r.message || 'no se pudo responder');
+    }
+    const updates = (r.status === 'ok' && r.data?.updates) ? r.data.updates : {};
     App._sourcingCtx.history.push({ role: 'assistant', content: String(reply) });
 
     document.getElementById('sourcingTyping')?.remove();
