@@ -2900,10 +2900,7 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1a1a1a;backg
 .sec-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:#bbb;margin-bottom:10px}
 .sec-body{font-size:14px;line-height:1.9;color:#333;min-height:20px}
 .sec-body.large{font-size:14.5px;line-height:1.95}
-.bullets{list-style:none;padding:0;margin:0}
-.bullets li{padding:5px 0 5px 20px;position:relative;font-size:14px;line-height:1.7;color:#333;border-bottom:1px solid #f5f5f5}
-.bullets li:last-child{border-bottom:none}
-.bullets li::before{content:'•';position:absolute;left:0;color:#aaa;font-size:16px;line-height:1.5}
+.bullets-edit{white-space:pre-wrap;font-size:14px;line-height:1.85;color:#333}
 /* CONTACT GRID */
 .contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
 .contact-item{padding:9px 0;border-bottom:1px solid #f0f0f0;display:flex;flex-direction:column;gap:2px}
@@ -2934,7 +2931,7 @@ body{padding-top:108px}
 </style>
 </head><body>
 <div class="toolbar">
-  <span class="toolbar-hint">✏ Hacé click en cualquier texto para editarlo · Los títulos de sección también son editables</span>
+  <span class="toolbar-hint">✏ Hacé click en cualquier texto para editarlo · Enter agrega una línea, Backspace la borra</span>
   <button class="print-btn" onclick="window.print()">Imprimir / PDF</button>
 </div>
 
@@ -2955,15 +2952,15 @@ body{padding-top:108px}
 </div>
 
 ${(()=>{
-  const lines = resumen ? resumen.split(/\n|(?<=\.)\s+(?=[A-ZÁÉÍÓÚÜ])/).map(s=>s.replace(/^[•\-\*]\s*/,'')).filter(s=>s.trim()) : [];
-  if(!lines.length) return `<div class="section"><div class="sec-label" contenteditable="true">Resumen del perfil</div><div class="sec-body" contenteditable="true" style="color:#bbb">(completar)</div></div>`;
-  return `<div class="section"><div class="sec-label" contenteditable="true">Resumen del perfil</div><ul class="bullets">${lines.map(l=>`<li contenteditable="true">${l.replace(/\.$/,'')}</li>`).join('')}</ul></div>`;
+  const lines = resumen ? resumen.split(/\n|(?<=\.)\s+(?=[A-ZÁÉÍÓÚÜ])/).map(s=>s.replace(/^[•\-\*]\s*/,'').replace(/\.$/,'').trim()).filter(Boolean) : [];
+  const text = lines.length ? lines.map(l=>'• '+l).join('\n') : '(completar)';
+  return `<div class="section"><div class="sec-label" contenteditable="true">Resumen del perfil</div><div class="sec-body bullets-edit" contenteditable="true" style="${lines.length?'':'color:#bbb'}">${text}</div></div>`;
 })()}
 
 ${(()=>{
-  const lines = c.notas ? String(c.notas).split(/\n|•/).map(s=>s.replace(/^[•\-\*]\s*/,'')).filter(s=>s.trim()) : [];
-  if(!lines.length) return `<div class="section"><div class="sec-label" contenteditable="true">Comentarios</div><div class="sec-body" contenteditable="true" style="color:#bbb">(completar)</div></div>`;
-  return `<div class="section"><div class="sec-label" contenteditable="true">Comentarios</div><ul class="bullets">${lines.map(l=>`<li contenteditable="true">${l}</li>`).join('')}</ul></div>`;
+  const lines = c.notas ? String(c.notas).split(/\n|•/).map(s=>s.replace(/^[•\-\*]\s*/,'').trim()).filter(Boolean) : [];
+  const text = lines.length ? lines.map(l=>'• '+l).join('\n') : '(completar)';
+  return `<div class="section"><div class="sec-label" contenteditable="true">Comentarios</div><div class="sec-body bullets-edit" contenteditable="true" style="${lines.length?'':'color:#bbb'}">${text}</div></div>`;
 })()}
 
 <div class="section">
