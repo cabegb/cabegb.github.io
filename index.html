@@ -1761,6 +1761,7 @@ async function submitCandidato(e,busquedaId) {
     cv_score:sc.score||'', cv_score_justificacion:sc.justificacion||'',
     cv_score_pros:sc.pros?JSON.stringify(sc.pros):'',
     cv_score_contras:sc.contras?JSON.stringify(sc.contras):'',
+    must_haves_evaluados:sc.evaluados?JSON.stringify(sc.evaluados):'',
   };
   const r=await apiPost({action:'nuevo_candidato',data});
   if(r.status==='ok'){App._parsedCV=null;App._cvPdfUrl=null;App._cvScore=null;showToast('Candidato agregado ✓');closeModal();await loadSection('pipeline');}
@@ -1810,6 +1811,7 @@ async function submitEditCandidato(e,id) {
     data.cv_score_justificacion=sc.justificacion||'';
     data.cv_score_pros=sc.pros?JSON.stringify(sc.pros):'';
     data.cv_score_contras=sc.contras?JSON.stringify(sc.contras):'';
+    data.must_haves_evaluados=sc.evaluados?JSON.stringify(sc.evaluados):'';
   }
   const r=await apiPost({action:'editar_candidato',data});
   if(r.status==='ok'){App._cvPdfUrl=null;App._cvScore=null;showToast('Candidato actualizado ✓');closeModal();await loadSection('pipeline');}
@@ -1821,6 +1823,28 @@ function abrirWaConMensaje(tel,msg) {
   if (msg) navigator.clipboard.writeText(msg).then(()=>showToast('Mensaje copiado — pegalo con Cmd+V en el chat 📋'));
   window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg||'')}`,'_blank');
 }
+function renderMustHavesEvaluados(raw) {
+  const evals = tryJSON(raw, null);
+  if (!Array.isArray(evals) || !evals.length) return '';
+  const id = 'mh_'+Math.random().toString(36).slice(2,8);
+  const badge = {si:'bg-green-50 text-green-700 ✓ Cumple',parcial:'bg-yellow-50 text-yellow-700 ~ Parcial',no:'bg-red-50 text-red-700 ✗ No cumple',no_se_sabe:'bg-gray-100 text-gray-500 ? No se sabe'};
+  return `
+  <button onclick="document.getElementById('${id}').classList.toggle('hidden')" class="w-full text-xs text-gray-500 border border-dashed border-gray-300 rounded-lg py-1.5 hover:border-gray-400 hover:text-gray-700 transition mt-1 mb-1">🔍 Ver cómo razonó la IA must-have por must-have</button>
+  <div id="${id}" class="hidden space-y-2 mb-2">
+    ${evals.map(e=>{
+      const b=badge[e.cumple]||badge.no_se_sabe;
+      const [cls,label]=[b.split(' ').slice(0,2).join(' '),b.split(' ').slice(2).join(' ')];
+      return `<div class="border border-gray-100 rounded-lg p-2.5">
+        <div class="flex items-center justify-between gap-2 mb-1">
+          <p class="text-xs font-medium text-gray-700">${e.must_have||''}</p>
+          <span class="text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${cls}">${label}</span>
+        </div>
+        <p class="text-xs text-gray-400">${e.evidencia||'—'}</p>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
 function buildWaMensajePrimerContacto(c,b) {
   const primerNombre=(c.nombre||'').trim().split(/\s+/)[0]||'';
   if (b.mensaje_conexion) return b.mensaje_conexion;
@@ -1874,7 +1898,8 @@ function modalVerCandidato(id) {
       <div class="grid grid-cols-2 gap-3 mb-3" id="scoreProsContras_${id}">
         ${c.cv_score_pros?`<div><p class="text-xs font-semibold text-green-700 mb-1">✓ A favor</p><ul class="space-y-0.5">${toArr(c.cv_score_pros).map(p=>`<li class="text-xs text-gray-600">• ${p}</li>`).join('')}</ul></div>`:''}
         ${c.cv_score_contras?`<div><p class="text-xs font-semibold text-red-600 mb-1">✗ En contra</p><ul class="space-y-0.5">${toArr(c.cv_score_contras).map(p=>`<li class="text-xs text-gray-600">• ${p}</li>`).join('')}</ul></div>`:''}
-      </div>`:`<p class="text-xs text-gray-400 text-center py-1">Sin score — subí el CV para que la IA evalúe</p>`}
+      </div>
+      ${renderMustHavesEvaluados(c.must_haves_evaluados)}`:`<p class="text-xs text-gray-400 text-center py-1">Sin score — subí el CV para que la IA evalúe</p>`}
       <!-- Chat recalibración -->
       <button onclick="toggleScoreChat('${id}')" class="w-full text-xs text-gray-500 border border-dashed border-gray-300 rounded-lg py-1.5 hover:border-gray-400 hover:text-gray-700 transition mt-1">💬 Discutir este análisis con la IA</button>
       <div id="scoreChat_${id}" class="hidden mt-3">
@@ -1995,10 +2020,10 @@ async function handleCVFile(file, formId) {
     if(r.status!=='ok') throw new Error(r.message||'Error al procesar');
 
 
-    const {url,cv_score,cv_score_justificacion,cv_score_pros,cv_score_contras,...p}=r.data;
+    const {url,cv_score,cv_score_justificacion,cv_score_pros,cv_score_contras,must_haves_evaluados,...p}=r.data;
     App._parsedCV=p;
     App._cvPdfUrl=url;
-    App._cvScore={score:cv_score,justificacion:cv_score_justificacion,pros:cv_score_pros,contras:cv_score_contras};
+    App._cvScore={score:cv_score,justificacion:cv_score_justificacion,pros:cv_score_pros,contras:cv_score_contras,evaluados:must_haves_evaluados};
     App.modal={...App.modal};
     render();
     const scoreMsg=cv_score?` · Score IA: ${cv_score}/10`:'';
