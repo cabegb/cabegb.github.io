@@ -83,6 +83,18 @@ async function apiPostPublic(body) {
 // HELPERS
 // ═══════════════════════════════════════════════════════════════
 function tryJSON(str, fallback) { try { return JSON.parse(str); } catch { return fallback; } }
+function normalizeWA(raw) {
+  const n = String(raw||'').replace(/\D/g,'');
+  if (!n || n.length < 6) return '';
+  // Argentina: 54 + 11 + 8 dígitos = 12 → agregar 9 → 549...
+  if (n.startsWith('54') && n.length === 12) return '549' + n.slice(2);
+  // Argentina sin código de país: empieza con 11/15 y tiene 10 dígitos
+  if ((n.startsWith('11')||n.startsWith('15')) && n.length === 10) return '549' + n;
+  // Argentina solo número local: 8 dígitos
+  if (n.length === 8) return '5491' + n;
+  // Ya tiene formato correcto (13+ dígitos con 549, o internacional)
+  return n;
+}
 function toArr(str) { if (!str) return []; const p = tryJSON(str, null); if (Array.isArray(p)) return p; return String(str).split(/\n|•/).map(s=>s.trim()).filter(Boolean); }
 function fmtMoney(n, moneda='') { if (!n && n!==0) return '—'; return (moneda?moneda+' ':'')+Number(n).toLocaleString('es-AR'); }
 function fmtMoneyMulti(byCurrency) { const parts=Object.entries(byCurrency||{}).filter(([,v])=>v).map(([cur,v])=>fmtMoney(v,cur)); return parts.length?parts.join(' · '):'—'; }
@@ -667,7 +679,7 @@ function renderLeads() {
 }
 
 function renderLeadCard(l, showActions) {
-  const wa = String(l.contacto_whatsapp||l.contacto_telefono||'').replace(/\D/g,'');
+  const wa = normalizeWA(l.contacto_whatsapp||l.contacto_telefono||'');
   const waUrl = wa ? `https://wa.me/${wa}` : null;
   const estadoColor = {nuevo:'bg-amber-100 text-amber-700', pendiente:'bg-amber-100 text-amber-700', contactado:'bg-blue-100 text-blue-700', convertido:'bg-green-100 text-green-700', descartado:'bg-gray-100 text-gray-500'}[l.estado]||'bg-gray-100 text-gray-500';
   return `
@@ -1934,7 +1946,7 @@ async function submitEditCandidato(e,id) {
 function escAttr(s) { return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 function abrirWaConMensaje(tel,msg) {
   if (msg) navigator.clipboard.writeText(msg).then(()=>showToast('Mensaje copiado — pegalo con Cmd+V en el chat 📋'));
-  window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg||'')}`,'_blank');
+  window.open(`https://wa.me/${normalizeWA(tel)}?text=${encodeURIComponent(msg||'')}`,'_blank');
 }
 function renderMustHavesEvaluados(raw) {
   const evals = tryJSON(raw, null);
