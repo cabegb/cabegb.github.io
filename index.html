@@ -435,7 +435,7 @@ function renderPanel() {
     {id:'ingresos',label:'Ingresos',icon:'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z'},
     {id:'historial',label:'Historial',icon:'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'},
   ];
-  const leadsCount=isAdmin?App.data.leads.filter(l=>l.estado==='pendiente').length:0;
+  const leadsCount=isAdmin?App.data.leads.filter(l=>!l.estado||l.estado==='pendiente'||l.estado==='nuevo').length:0;
   return `
   <div class="min-h-screen flex flex-col">
     <header class="bg-gray-900 text-white px-4 py-3 flex items-center justify-between sticky top-0 z-30">
@@ -655,7 +655,7 @@ function irAPipeline(bid) { App.data.busquedaActiva=bid; loadSection('pipeline')
 // ═══════════════════════════════════════════════════════════════
 function renderLeads() {
   const leads=App.data.leads;
-  const pend=leads.filter(l=>l.estado==='pendiente'), resto=leads.filter(l=>l.estado!=='pendiente');
+  const pend=leads.filter(l=>!l.estado||l.estado==='pendiente'||l.estado==='nuevo'), resto=leads.filter(l=>l.estado&&l.estado!=='pendiente'&&l.estado!=='nuevo');
   return `
   <div class="p-6 max-w-4xl">
     <h2 class="text-xl font-bold mb-6">Bandeja de Leads</h2>
