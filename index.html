@@ -321,23 +321,17 @@ function renderLanding() {
       </div>
     </section>
 
-    <!-- HOW WE DO IT — slide 3/4 style: negro puro, texto centrado espaciado -->
+    <!-- HOW WE DO IT — slide 3: tagline solo, sin tarjetas -->
     <section style="background:#000;border-top:1px solid rgba(255,255,255,0.06)" class="px-6 py-20 text-center">
       <p class="text-xs font-bold text-gray-500 uppercase tracking-[0.3em] mb-6">H O W &nbsp; W E &nbsp; D O &nbsp; I T</p>
-      <div class="flex justify-center mb-6">
+      <div class="flex justify-center mb-8">
         <div style="height:2px;width:120px;background:linear-gradient(90deg,#2563eb,#60a5fa,#f59e0b)"></div>
       </div>
       <p class="text-white text-xl md:text-2xl font-light max-w-2xl mx-auto leading-relaxed">
-        ${isEN?'FAST, EFFECTIVE, RISK FREE,<br>and at the <span style="color:#f59e0b;text-decoration:underline">lowest rate</span> of the market.':'RÁPIDO, EFECTIVO, SIN RIESGO,<br>y a la <span style="color:#f59e0b;text-decoration:underline">tasa más competitiva</span> del mercado.'}
+        ${isEN
+          ? 'FAST, EFFECTIVE, RISK FREE,<br>and at the <span style="color:#f59e0b;font-style:italic">lowest rate</span> of the market.'
+          : 'RÁPIDO, EFECTIVO, SIN RIESGO,<br>y a la <span style="color:#f59e0b;font-style:italic">tasa más competitiva</span> del mercado.'}
       </p>
-      <div class="max-w-3xl mx-auto mt-14 text-left grid md:grid-cols-2 gap-px" style="background:rgba(255,255,255,0.06)">
-        ${t.how.map(([icon,title,desc])=>`
-        <div style="background:#000" class="p-7">
-          <p class="text-blue-400 text-2xl mb-3">${icon}</p>
-          <p class="text-white font-semibold mb-2">${title}</p>
-          <p class="text-gray-500 text-sm leading-relaxed">${desc}</p>
-        </div>`).join('')}
-      </div>
     </section>
 
     <!-- OUR DIFFERENTIALS — slide 5 style: split izq foto oscura / der blanco con botones -->
