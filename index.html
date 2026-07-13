@@ -178,7 +178,7 @@ function render() {
 // ═══════════════════════════════════════════════════════════════
 // LANDING
 // ═══════════════════════════════════════════════════════════════
-let _landingLang = 'es';
+let _landingLang = 'en';
 function toggleLandingLang() { _landingLang = _landingLang==='es'?'en':'es'; render(); }
 
 const LANDING_COPY = {
@@ -187,13 +187,13 @@ const LANDING_COPY = {
     role: 'Performance Marketing & Tech Recruiting',
     headline: 'KBGB Recruiting',
     slogan: 'Como no somos la única manera de encontrar talento... decidimos ser la mejor ⭐',
-    bio: 'Somos un equipo de Senior Recruiters especializados en 2 verticales: 1) talento de Growth, Performance Marketing y Paid Media para marcas y agencias de eCommerce/DTC; y 2) perfiles Tech para empresas SaaS y de IA. Más de 10 años de experiencia liderando procesos de selección end-to-end para startups y compañías consolidadas a nivel global. Las ayudamos a encontrar talento de alto impacto con un servicio más ágil, más personalizado y con honorarios mucho más competitivos que los de las agencias de recruiting tradicionales.',
+    bio: `Somos un equipo de Senior Recruiters especializados en dos verticales:<br><br>• <span style="color:#f59e0b;font-weight:700">Growth & Performance Marketing</span> para marcas y agencias de eCommerce/DTC.<br>• <span style="color:#f59e0b;font-weight:700">Tech & AI</span> para empresas SaaS y de Inteligencia Artificial.<br><br>Más de 10 años de experiencia liderando procesos de selección end-to-end para startups y compañías consolidadas a nivel global. Las ayudamos a encontrar talento de alto impacto con un <span style="color:#f59e0b;font-weight:700">servicio más ágil, más personalizado y con honorarios mucho más competitivos</span> que los de las agencias de recruiting tradicionales.`,
     diff_title: 'Nuestros Diferenciales',
     diff: [
-      { tag:'A RESULTADO', body:'No se cobra ningún tipo de concepto por adelantado. Si no conseguimos el candidato/a, no se cobra.' },
-      { tag:'SIN EXCLUSIVIDAD', body:'Las búsquedas pueden ser abiertas tanto por el cliente como por otras consultoras que el mismo contrate.' },
-      { tag:'CON GARANTÍA', body:'En caso de desvinculación del recurso seleccionado dentro de los 60 días, se realizará la búsqueda del mismo perfil sin costo adicional para el cliente.' },
-      { tag:'MUY RAPIDO!', body:'Los primeros candidatos se presentan entre los 2 y 4 días hábiles posteriores a la apertura de la búsqueda.' },
+      { tag:'100% A RESULTADO', body:'Solo abonás nuestros honorarios si contratás a uno de nuestros candidatos. Si la búsqueda no se cierra con éxito, no pagás nada.' },
+      { tag:'SIN EXCLUSIVIDAD', body:'Podés trabajar en paralelo con otras consultoras o con tu equipo interno durante la búsqueda.' },
+      { tag:'CON GARANTÍA', body:'Si el candidato se desvincula dentro de los primeros 60 días, realizamos una nueva búsqueda sin costo adicional.' },
+      { tag:'MUY RAPIDO!', body:'Presentamos los primeros perfiles calificados entre los 2 y 4 días hábiles desde el inicio de la búsqueda.' },
     ],
     workflow_title: 'Cómo trabajamos',
     workflow: [
@@ -216,13 +216,13 @@ const LANDING_COPY = {
     role: 'Performance Marketing & Tech Recruiting',
     headline: 'KBGB Recruiting',
     slogan: "Since we're not the only way to hire talent... We decided to become the best one ⭐",
-    bio: "We're a boutique recruiting partner specializing in Growth & Paid Media talent for eCommerce/DTC brands and agencies, and Tech talent for SaaS and AI companies. With 10+ years of full-cycle recruiting experience, we help startups and established businesses hire top talent across the U.S., Argentina, and globally. We offer more competitive fees than traditional recruiting agencies, combined with a far more personalized and hands-on approach.",
-    diff_title: 'Our service is:',
+    bio: `We're a team of Senior Recruiters specializing in two core verticals:<br><br>• <span style="color:#f59e0b;font-weight:700">Growth & Performance Marketing</span> for eCommerce/DTC brands and agencies.<br>• <span style="color:#f59e0b;font-weight:700">Tech & AI</span> for SaaS and AI companies.<br><br>10+ years of full-cycle recruiting experience, we help startups and established businesses hire top talent globally. We offer <span style="color:#f59e0b;font-weight:700">more competitive fees than traditional recruiting agencies</span>, combined with a far more personalized and hands-on approach.`,
+    diff_title: 'Our Differentials',
     diff: [
-      { tag:'RISK-FREE', body:'No upfront fees are charged. If you do not hire the candidate, there is no charge.' },
-      { tag:'NON-EXCLUSIVE', body:'Searches can be opened either by the client or by other consulting firms contracted by the client.' },
-      { tag:'GUARANTEED', body:"In case of candidate's termination within the trial period (60 days from start date), we will find a new person at no additional cost for the client." },
-      { tag:'FAST TURNAROUND', body:'We present qualified candidates within 2–4 business days.' },
+      { tag:'100% SUCCESS-BASED', body:'You only pay if we successfully place a candidate. No upfront fees, no retainers.' },
+      { tag:'NON-EXCLUSIVE', body:"You're free to work with other recruiting partners or run the search internally at the same time." },
+      { tag:'60-DAY GUARANTEE', body:"If the hired candidate leaves within the first 60 days, we'll replace them at no additional cost." },
+      { tag:'FAST HIRING', body:"You'll receive the first shortlisted candidates within 2–4 business days after the search kicks off." },
     ],
     workflow_title: 'How we work',
     workflow: [
@@ -271,7 +271,7 @@ function renderLanding() {
       <div class="max-w-5xl mx-auto px-6 py-20 w-full flex flex-col items-center md:items-start relative z-10">
         <!-- Texto -->
         <div class="flex-1 text-center md:text-left">
-          <p class="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-4">${t.role}</p>
+          <p class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:#f59e0b">${t.role}</p>
           <div class="flex items-center gap-3 justify-center md:justify-start mb-2">
             <img src="logo.png" alt="KBGB" style="width:36px;height:auto" onerror="this.style.display='none'">
             <h1 class="text-4xl md:text-5xl font-black leading-tight" style="color:#2563eb">${t.headline}</h1>
@@ -298,8 +298,8 @@ function renderLanding() {
       </div>
       <p class="text-white text-xl md:text-2xl font-black max-w-2xl mx-auto leading-relaxed tracking-wide">
         ${isEN
-          ? 'FAST, EFFECTIVE, RISK-FREE, and at one of the MOST COMPETITIVE RATES on the market'
-          : 'RÁPIDO, EFECTIVO, SIN RIESGO, y a uno de los COSTOS MÁS BAJOS del mercado'}
+          ? '<span style="color:#f59e0b">FAST, EFFECTIVE, RISK-FREE</span>, and at one of the <span style="color:#f59e0b">MOST COMPETITIVE RATES</span> on the market'
+          : '<span style="color:#f59e0b">RÁPIDO, EFECTIVO, SIN RIESGO</span>, y a uno de los <span style="color:#f59e0b">COSTOS MÁS BAJOS</span> del mercado'}
       </p>
     </section>
 
