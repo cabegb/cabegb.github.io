@@ -3744,9 +3744,10 @@ function copiarLinkPostulacion(bid) {
 async function initApply(bid) {
   App.view='apply'; App._applyState='loading'; App._applyBid=bid; render();
   try {
-    const r = await apiPostPublic({ action:'get_busqueda_publica', data:{ id: bid } });
-    if (r.status!=='ok') throw new Error(r.message||'Búsqueda no encontrada');
-    App._applyData = r.data;
+    const r = await apiGet({});
+    const busqueda = (r.busquedas||[]).find(b=>b.id===bid);
+    if (!busqueda) throw new Error('Búsqueda no encontrada');
+    App._applyData = busqueda;
     App._applyState = 'ok';
   } catch(err) {
     App._applyState = 'error'; App._applyError = err.message;
