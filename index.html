@@ -350,12 +350,16 @@ function renderLanding() {
         </div>
         <h2 class="text-2xl font-black text-white mb-2 text-center">${t.form_title}</h2>
         <p class="text-gray-500 mb-10 text-sm text-center">${t.form_sub}</p>
+        <div id="leadSuccessMsg" style="display:none" class="text-center py-10">
+          <div class="text-5xl mb-4">✅</div>
+          <p class="text-white text-xl font-bold mb-2">${isEN ? 'Message received!' : '¡Consulta recibida!'}</p>
+          <p class="text-gray-400 text-sm">${isEN ? "We'll be in touch within 24 business hours." : 'Te contactamos en menos de 24hs hábiles.'}</p>
+        </div>
         <form id="leadForm" class="space-y-5" onsubmit="submitLead(event)">
           <div class="grid md:grid-cols-2 gap-4">
-            <div><label class="${lbl}">${t.f_nombre}</label><input name="contacto_nombre" required placeholder="Juan García" class="${inp}"></div>
-            <div><label class="${lbl}">${t.f_wa}</label><input name="contacto_whatsapp" type="tel" pattern="[\\d\\s\\+\\-\\(\\)]{6,}" placeholder="${t.f_wa_ph}" class="${inp}"></div>
+            <div><label class="${lbl}">${t.f_nombre} <span class="text-red-400">*</span></label><input name="contacto_nombre" required placeholder="Juan García" class="${inp}"></div>
             <div><label class="${lbl}">${t.f_empresa} <span class="text-red-400">*</span></label><input name="empresa" required placeholder="${isEN?'Company Inc':'Empresa SA'}" class="${inp}"></div>
-            <div><label class="${lbl}">${t.f_email}${isEN?' <span class=\'text-red-400\'>*</span>':''}</label><input name="contacto_email" type="email" ${isEN?'required':''} placeholder="${isEN?'you@company.com':'vos@empresa.com'}" class="${inp}"></div>
+            <div class="md:col-span-2"><label class="${lbl}">${t.f_email} <span class="text-red-400">*</span></label><input name="contacto_email" type="email" required placeholder="${isEN?'you@company.com':'vos@empresa.com'}" class="${inp}"></div>
             <div class="md:col-span-2"><label class="${lbl}">${t.f_puesto} <span class="text-red-400">*</span></label><input name="puesto" required placeholder="Head of Marketing" class="${inp}"></div>
           </div>
           <button type="submit" id="leadSubmitBtn" style="background:#2563eb" class="w-full text-white py-3 rounded font-black text-sm hover:opacity-90 transition tracking-wide">${t.f_submit}</button>
@@ -3720,8 +3724,11 @@ async function submitLead(e) {
   try {
     const fd=new FormData(e.target);
     const r=await apiPostPublic({action:'nuevo_lead',data:Object.fromEntries(fd.entries())});
-    if(r.status==='ok'){e.target.reset();document.getElementById('leadJdStatus').textContent='';showToast('¡Recibimos tu consulta! Te contactamos pronto.');}
-    else showToast(r.message||'Error al enviar','error');
+    if(r.status==='ok'){
+      e.target.reset();
+      e.target.style.display='none';
+      const s=document.getElementById('leadSuccessMsg'); if(s) s.style.display='block';
+    } else showToast(r.message||'Error al enviar','error');
   } catch(err){showToast('Error de conexión','error');}
   btn.disabled=false; btn.textContent=LANDING_COPY[_landingLang].f_submit;
 }
