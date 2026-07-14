@@ -187,7 +187,7 @@ const LANDING_COPY = {
     role: 'Performance Marketing & Tech Recruiting',
     headline: 'KBGB Recruiting',
     slogan: 'Como no somos la única manera de encontrar talento... decidimos ser la mejor ⭐',
-    bio: `Somos un equipo de Senior Recruiters especializados en dos verticales:<br><br>• <span style="color:#f59e0b;font-weight:700">Growth & Performance Marketing</span> para marcas y agencias de eCommerce/DTC.<br>• <span style="color:#f59e0b;font-weight:700">Tech & AI</span> para empresas SaaS y de Inteligencia Artificial.<br><br>Más de 10 años de experiencia liderando procesos de selección end-to-end para startups y compañías consolidadas a nivel global. Las ayudamos a encontrar talento de alto impacto con un <span style="color:#f59e0b;font-weight:700">servicio más ágil, más personalizado y con honorarios mucho más competitivos</span> que los de las agencias de recruiting tradicionales.`,
+    bio: `Somos un equipo de Senior Recruiters especializados en dos verticales:<br><br>• <span style="color:#2791ef;font-weight:700">Growth & Performance Marketing</span> para marcas y agencias de eCommerce/DTC.<br>• <span style="color:#2791ef;font-weight:700">Tech & AI</span> para empresas SaaS y de Inteligencia Artificial.<br><br>Más de 10 años de experiencia liderando procesos de selección end-to-end para startups y compañías consolidadas a nivel global. Las ayudamos a encontrar talento de alto impacto con un <span style="color:#2791ef;font-weight:700">servicio más ágil, más personalizado y con honorarios mucho más competitivos</span> que los de las agencias de recruiting tradicionales.`,
     diff_title: 'Nuestros Diferenciales',
     diff: [
       { tag:'100% A RESULTADO', body:'Solo abonás nuestros honorarios si contratás a uno de nuestros candidatos. Si la búsqueda no se cierra con éxito, no pagás nada.' },
@@ -216,7 +216,7 @@ const LANDING_COPY = {
     role: 'Performance Marketing & Tech Recruiting',
     headline: 'KBGB Recruiting',
     slogan: "Since we're not the only way to hire talent... We decided to become the best one ⭐",
-    bio: `We're a team of Senior Recruiters specializing in two core verticals:<br><br>• <span style="color:#f59e0b;font-weight:700">Growth & Performance Marketing</span> for eCommerce/DTC brands and agencies.<br>• <span style="color:#f59e0b;font-weight:700">Tech & AI</span> for SaaS and AI companies.<br><br>10+ years of full-cycle recruiting experience, we help startups and established businesses hire top talent globally. We offer <span style="color:#f59e0b;font-weight:700">more competitive fees than traditional recruiting agencies</span>, combined with a far more personalized and hands-on approach.`,
+    bio: `We're a team of Senior Recruiters specializing in two core verticals:<br><br>• <span style="color:#2791ef;font-weight:700">Growth & Performance Marketing</span> for eCommerce/DTC brands and agencies.<br>• <span style="color:#2791ef;font-weight:700">Tech & AI</span> for SaaS and AI companies.<br><br>10+ years of full-cycle recruiting experience, we help startups and established businesses hire top talent globally. We offer <span style="color:#2791ef;font-weight:700">more competitive fees than traditional recruiting agencies</span>, combined with a far more personalized and hands-on approach.`,
     diff_title: 'Our Differentials',
     diff: [
       { tag:'100% SUCCESS-BASED', body:'You only pay if we successfully place a candidate. No upfront fees, no retainers.' },
@@ -255,7 +255,10 @@ function renderLanding() {
 
     <!-- NAV -->
     <nav style="background:#000;border-bottom:1px solid rgba(255,255,255,0.08)" class="px-6 py-4 flex items-center justify-between sticky top-0 z-50">
-      <img src="logo.png" alt="KBGB Recruiting" style="height:32px;width:auto" onerror="this.style.display='none'">
+      <div style="background:#0d3560;padding:5px 10px;display:inline-flex;flex-direction:column;align-items:center;gap:1px">
+        <span style="color:#fff;font-weight:900;font-size:15px;letter-spacing:0.04em;line-height:1;font-family:system-ui,sans-serif">KBGB</span>
+        <span style="color:#fff;font-size:6px;letter-spacing:0.22em;font-weight:600;font-family:system-ui,sans-serif">RECRUITING</span>
+      </div>
       <div class="flex items-center gap-3">
         <button onclick="toggleLandingLang()" class="text-xs px-3 py-1.5 rounded border border-white/20 text-gray-400 hover:text-white hover:border-white/50 transition">
           ${isEN?'🇦🇷 ES':'🇺🇸 EN'}
@@ -271,9 +274,12 @@ function renderLanding() {
       <div class="max-w-5xl mx-auto px-6 py-20 w-full flex flex-col items-center md:items-start relative z-10">
         <!-- Texto -->
         <div class="flex-1 text-center md:text-left">
-          <p class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:#f59e0b">${t.role}</p>
+          <p class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:#2791ef">${t.role}</p>
           <div class="flex items-center justify-center md:justify-start mb-2">
-            <img src="logo.png" alt="KBGB Recruiting" style="height:72px;width:auto" onerror="this.style.display='none'">
+            <div style="background:#0d3560;padding:12px 20px;display:inline-flex;flex-direction:column;align-items:center;gap:3px">
+              <span style="color:#fff;font-weight:900;font-size:36px;letter-spacing:0.04em;line-height:1;font-family:system-ui,sans-serif">KBGB</span>
+              <span style="color:#fff;font-size:10px;letter-spacing:0.28em;font-weight:600;font-family:system-ui,sans-serif">RECRUITING</span>
+            </div>
           </div>
           <div class="flex gap-0 my-5 justify-center md:justify-start">
             <div style="height:3px;width:80px;background:linear-gradient(90deg,#2563eb,#60a5fa)"></div>
@@ -293,12 +299,12 @@ function renderLanding() {
     <section style="background:#000;border-top:1px solid rgba(255,255,255,0.06)" class="px-6 py-20 text-center">
       <p class="text-xs font-bold text-gray-500 uppercase tracking-[0.3em] mb-6">${isEN ? 'H O W &nbsp; W E &nbsp; D O &nbsp; I T' : 'C O M O &nbsp; L O &nbsp; H A C E M O S'}</p>
       <div class="flex justify-center mb-8">
-        <div style="height:2px;width:120px;background:linear-gradient(90deg,#2563eb,#60a5fa,#f59e0b)"></div>
+        <div style="height:2px;width:120px;background:linear-gradient(90deg,#011b3e,#2791ef)"></div>
       </div>
       <p class="text-white text-xl md:text-2xl font-black max-w-2xl mx-auto leading-relaxed tracking-wide">
         ${isEN
-          ? '<span style="color:#f59e0b">FAST, EFFECTIVE, RISK-FREE</span>, and at one of the <span style="color:#f59e0b">MOST COMPETITIVE RATES</span> on the market'
-          : '<span style="color:#f59e0b">RÁPIDO, EFECTIVO, SIN RIESGO</span>, y a uno de los <span style="color:#f59e0b">COSTOS MÁS BAJOS</span> del mercado'}
+          ? '<span style="color:#2791ef">FAST, EFFECTIVE, RISK-FREE</span>, and at one of the <span style="color:#2791ef">MOST COMPETITIVE RATES</span> on the market'
+          : '<span style="color:#2791ef">RÁPIDO, EFECTIVO, SIN RIESGO</span>, y a uno de los <span style="color:#2791ef">COSTOS MÁS BAJOS</span> del mercado'}
       </p>
     </section>
 
@@ -3842,7 +3848,7 @@ function renderApply() {
   const dark = 'background:#000;font-family:Inter,system-ui,sans-serif';
   if (App._applyState==='loading') return `
   <div class="min-h-screen flex items-center justify-center" style="${dark}">
-    <div class="w-8 h-8 border-4 rounded-full animate-spin" style="border-color:rgba(255,255,255,0.2);border-top-color:#f59e0b"></div>
+    <div class="w-8 h-8 border-4 rounded-full animate-spin" style="border-color:rgba(255,255,255,0.2);border-top-color:#2791ef"></div>
   </div>`;
   if (App._applyState==='error') return `
   <div class="min-h-screen flex items-center justify-center px-6" style="${dark}">
@@ -3901,7 +3907,7 @@ function renderApply() {
     <!-- HERO -->
     <section style="border-bottom:1px solid rgba(255,255,255,0.08)" class="px-6 py-14">
       <div class="max-w-2xl mx-auto">
-        <p class="text-xs font-bold uppercase tracking-widest mb-4" style="color:#f59e0b">Posición abierta</p>
+        <p class="text-xs font-bold uppercase tracking-widest mb-4" style="color:#2791ef">Posición abierta</p>
         <h1 class="text-3xl md:text-4xl font-black text-white mb-3 leading-tight">${b.puesto||'Búsqueda'}</h1>
         ${b.cliente?`<p class="text-gray-400 font-medium text-lg mb-5">${b.cliente}</p>`:''}
 
@@ -3917,7 +3923,7 @@ function renderApply() {
           <div id="jdPreview" style="overflow:hidden;max-height:280px;mask-image:linear-gradient(to bottom,black 50%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,black 50%,transparent 100%)">
             <p class="text-gray-400 text-sm leading-relaxed">${jdHtml}</p>
           </div>
-          <button onclick="var el=document.getElementById('jdPreview');el.style.maxHeight='none';el.style.maskImage='none';el.style.webkitMaskImage='none';this.style.display='none'" class="text-xs font-semibold mt-4 block" style="color:#f59e0b">
+          <button onclick="var el=document.getElementById('jdPreview');el.style.maxHeight='none';el.style.maskImage='none';el.style.webkitMaskImage='none';this.style.display='none'" class="text-xs font-semibold mt-4 block" style="color:#2791ef">
             Ver descripción completa ↓
           </button>
         </div>`:''}
@@ -3928,7 +3934,7 @@ function renderApply() {
     <!-- FORMULARIO -->
     <section class="px-6 py-12">
       <div class="max-w-2xl mx-auto">
-        <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#f59e0b">Aplicar</p>
+        <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#2791ef">Aplicar</p>
         <h2 class="text-2xl font-black text-white mb-1">Postulate a este rol</h2>
         <p class="text-gray-500 text-sm mb-8">Subí tu CV y te contactamos si tu perfil encaja.</p>
 
@@ -3937,22 +3943,22 @@ function renderApply() {
           <!-- Nombre y email -->
           <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
-              <label class="${lbl}">Tu nombre <span style="color:#f59e0b">*</span></label>
+              <label class="${lbl}">Tu nombre <span style="color:#2791ef">*</span></label>
               <input name="nombre" required placeholder="Juan Pérez" class="${inp}" style="${inpStyle}">
             </div>
             <div>
-              <label class="${lbl}">Tu email <span style="color:#f59e0b">*</span></label>
+              <label class="${lbl}">Tu email <span style="color:#2791ef">*</span></label>
               <input name="email" type="email" required placeholder="juan@email.com" class="${inp}" style="${inpStyle}">
             </div>
           </div>
 
           <!-- CV upload -->
           <div>
-            <label class="${lbl}">Tu CV <span style="color:#f59e0b">*</span></label>
+            <label class="${lbl}">Tu CV <span style="color:#2791ef">*</span></label>
             <div style="border:2px dashed rgba(255,255,255,0.15);border-radius:12px;cursor:pointer;transition:border-color .2s"
               class="p-8 text-center hover:border-amber-500"
               onclick="document.getElementById('applyCvFile').click()"
-              ondragover="event.preventDefault();this.style.borderColor='#f59e0b'"
+              ondragover="event.preventDefault();this.style.borderColor='#2791ef'"
               ondragleave="this.style.borderColor='rgba(255,255,255,0.15)'"
               ondrop="event.preventDefault();this.style.borderColor='rgba(255,255,255,0.15)';document.getElementById('applyCvFile').files=event.dataTransfer.files;document.getElementById('applyFileName').textContent=event.dataTransfer.files[0]?.name||''">
               <p class="text-3xl mb-3">📄</p>
@@ -3961,13 +3967,13 @@ function renderApply() {
               <input type="file" id="applyCvFile" accept=".pdf" required class="hidden"
                 onchange="document.getElementById('applyFileName').textContent=this.files[0]?.name||''">
             </div>
-            <p id="applyFileName" class="text-xs mt-2 text-center font-semibold" style="color:#f59e0b"></p>
+            <p id="applyFileName" class="text-xs mt-2 text-center font-semibold" style="color:#2791ef"></p>
             <p id="applyCvStatus" class="text-xs mt-1 text-center text-gray-400"></p>
           </div>
 
           <!-- Expectativa salarial -->
           <div>
-            <label class="${lbl}">Expectativa salarial <span style="color:#f59e0b">*</span></label>
+            <label class="${lbl}">Expectativa salarial <span style="color:#2791ef">*</span></label>
             <input name="expectativa_salarial" required placeholder="${b.moneda==='USD'?'Ej: USD 3,500/mes':'Ej: $3.500.000 brutos/mes'}" class="${inp}" style="${inpStyle}">
           </div>
 
@@ -3984,7 +3990,7 @@ function renderApply() {
 
           <button type="submit" id="applySubmitBtn"
             class="w-full py-4 rounded-xl font-black text-sm tracking-wide transition text-black hover:opacity-90"
-            style="background:#f59e0b">
+            style="background:#2791ef">
             Enviar postulación →
           </button>
         </form>
