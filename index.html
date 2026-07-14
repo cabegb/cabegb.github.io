@@ -1906,7 +1906,7 @@ function modalNuevoCandidato(payload) {
       <div><label class="block text-xs font-medium text-gray-600 mb-1">Etapa inicial</label>
         <select name="etapa" class="${selectCls()}">${TODAS_ETAPAS.map(s=>`<option>${s}</option>`).join('')}</select>
       </div>
-      <div><label class="block text-xs font-medium text-gray-600 mb-1">Expectativa salarial <span class="text-gray-400 font-normal">(opcional)</span></label>
+      <div><label class="block text-xs font-medium text-gray-600 mb-1">Salary expectation <span class="text-gray-400 font-normal">(opcional)</span></label>
         <div class="flex gap-2"><select name="expectativa_moneda" class="${selectCls()} w-24 flex-shrink-0"><option value="ARS">ARS</option><option value="USD">USD</option></select><input name="expectativa_salarial" type="text" placeholder="Ej: 3300-3500" class="${inputCls()} flex-1"></div></div>
       <div><label class="block text-xs font-medium text-gray-600 mb-1">Notas</label><textarea name="notas" rows="2" class="${inputCls()} resize-none"></textarea></div>
       ${renderScorecard(bid,{})}
@@ -1953,7 +1953,7 @@ function modalEditarCandidato(id) {
       <div><label class="block text-xs font-medium text-gray-600 mb-1">Etapa</label>
         <select name="etapa" class="${selectCls()}">${TODAS_ETAPAS.map(s=>`<option ${c.etapa===s?'selected':''}>${s}</option>`).join('')}</select>
       </div>
-      <div><label class="block text-xs font-medium text-gray-600 mb-1">Expectativa salarial</label>
+      <div><label class="block text-xs font-medium text-gray-600 mb-1">Salary expectation</label>
         <div class="flex gap-2"><select name="expectativa_moneda" class="${selectCls()} w-24 flex-shrink-0"><option value="ARS" ${(c.expectativa_salarial||'').toString().toUpperCase().includes('USD')?'':'selected'}>ARS</option><option value="USD" ${(c.expectativa_salarial||'').toString().toUpperCase().includes('USD')?'selected':''}>USD</option></select><input name="expectativa_salarial" type="text" value="${String(c.expectativa_salarial||'').replace(/^(ARS|USD)\s*/i,'')}" placeholder="Ej: 3300-3500" class="${inputCls()} flex-1"></div></div>
       <div><label class="block text-xs font-medium text-gray-600 mb-1">Notas</label><textarea name="notas" rows="3" class="${inputCls()} resize-none">${c.notas||''}</textarea></div>
       ${renderScorecard(c.busqueda_id,sc)}
@@ -3196,7 +3196,7 @@ ${(()=>{
     ${c.contacto_email?`<div class="contact-item"><span class="contact-key" contenteditable="true">Email</span><span class="contact-val" contenteditable="true">${c.contacto_email}</span></div>`:''}
     ${c.contacto_telefono?`<div class="contact-item"><span class="contact-key" contenteditable="true">Teléfono</span><span class="contact-val" contenteditable="true">${c.contacto_telefono}</span></div>`:''}
     ${c.linkedin?`<div class="contact-item"><span class="contact-key" contenteditable="true">LinkedIn</span><span class="contact-val" contenteditable="true">${c.linkedin}</span></div>`:''}
-    ${expStr?`<div class="contact-item"><span class="contact-key" contenteditable="true">Expectativa salarial</span><span class="contact-val" contenteditable="true">${expStr}</span></div>`:''}
+    ${expStr?`<div class="contact-item"><span class="contact-key" contenteditable="true">Salary expectation</span><span class="contact-val" contenteditable="true">${expStr}</span></div>`:''}
     ${c.ubicacion?`<div class="contact-item"><span class="contact-key" contenteditable="true">Ubicación</span><span class="contact-val" contenteditable="true">${c.ubicacion}</span></div>`:''}
   </div>
 </div>
@@ -3854,16 +3854,16 @@ function renderApply() {
   <div class="min-h-screen flex items-center justify-center px-6" style="${dark}">
     <div class="text-center max-w-sm">
       <p class="text-4xl mb-4">🔍</p>
-      <p class="text-lg font-bold text-white mb-2">No encontramos esta búsqueda</p>
-      <p class="text-sm text-gray-500">${App._applyError||'Puede que ya no esté activa o el link sea incorrecto.'}</p>
+      <p class="text-lg font-bold text-white mb-2">Position not found</p>
+      <p class="text-sm text-gray-500">${App._applyError||'This position may no longer be active or the link is incorrect.'}</p>
     </div>
   </div>`;
   if (App._applyState==='sent') return `
   <div class="min-h-screen flex items-center justify-center px-6" style="${dark}">
     <div class="text-center max-w-sm">
       <p class="text-5xl mb-5">✅</p>
-      <p class="text-2xl font-black text-white mb-2">¡Postulación recibida!</p>
-      <p class="text-gray-400 text-sm mb-8">Vamos a revisar tu perfil y te contactamos a la brevedad.</p>
+      <p class="text-2xl font-black text-white mb-2">Application received!</p>
+      <p class="text-gray-400 text-sm mb-8">We'll review your profile and be in touch soon.</p>
       <div class="flex items-center justify-center gap-2">
         <img src="logo.png" style="width:24px;height:auto" onerror="this.style.display='none'">
         <span class="text-xs text-gray-600 font-semibold tracking-widest uppercase">KBGB Recruiting</span>
@@ -3907,8 +3907,8 @@ function renderApply() {
     <!-- HERO -->
     <section style="border-bottom:1px solid rgba(255,255,255,0.08)" class="px-6 py-14">
       <div class="max-w-2xl mx-auto">
-        <p class="text-xs font-bold uppercase tracking-widest mb-4" style="color:#2791ef">Posición abierta</p>
-        <h1 class="text-3xl md:text-4xl font-black text-white mb-3 leading-tight">${b.puesto||'Búsqueda'}</h1>
+        <p class="text-xs font-bold uppercase tracking-widest mb-4" style="color:#2791ef">Open position</p>
+        <h1 class="text-3xl md:text-4xl font-black text-white mb-3 leading-tight">${b.puesto||'Position'}</h1>
         ${b.cliente?`<p class="text-gray-400 font-medium text-lg mb-5">${b.cliente}</p>`:''}
 
         <!-- Tags: seniority y modalidad solamente, sin banda salarial -->
@@ -3919,12 +3919,12 @@ function renderApply() {
 
         ${jdHtml?`
         <div style="border-top:1px solid rgba(255,255,255,0.08)" class="pt-8">
-          <p class="text-xs font-bold uppercase tracking-widest mb-5 text-gray-500">Descripción del rol</p>
+          <p class="text-xs font-bold uppercase tracking-widest mb-5 text-gray-500">Job Description</p>
           <div id="jdPreview" style="overflow:hidden;max-height:280px;mask-image:linear-gradient(to bottom,black 50%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,black 50%,transparent 100%)">
             <p class="text-gray-400 text-sm leading-relaxed">${jdHtml}</p>
           </div>
           <button onclick="var el=document.getElementById('jdPreview');el.style.maxHeight='none';el.style.maskImage='none';el.style.webkitMaskImage='none';this.style.display='none'" class="text-xs font-semibold mt-4 block" style="color:#2791ef">
-            Ver descripción completa ↓
+            View full description ↓
           </button>
         </div>`:''}
 
@@ -3934,27 +3934,27 @@ function renderApply() {
     <!-- FORMULARIO -->
     <section class="px-6 py-12">
       <div class="max-w-2xl mx-auto">
-        <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#2791ef">Aplicar</p>
-        <h2 class="text-2xl font-black text-white mb-1">Postulate a este rol</h2>
-        <p class="text-gray-500 text-sm mb-8">Subí tu CV y te contactamos si tu perfil encaja.</p>
+        <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#2791ef">Apply</p>
+        <h2 class="text-2xl font-black text-white mb-1">Apply for this role</h2>
+        <p class="text-gray-500 text-sm mb-8">Submit your CV and we'll reach out if your profile is a match.</p>
 
         <form id="applyForm" class="space-y-6" onsubmit="submitPostulacion(event,'${App._applyBid}')">
 
           <!-- Nombre y email -->
           <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
-              <label class="${lbl}">Tu nombre <span style="color:#2791ef">*</span></label>
-              <input name="nombre" required placeholder="Juan Pérez" class="${inp}" style="${inpStyle}">
+              <label class="${lbl}">Your name <span style="color:#2791ef">*</span></label>
+              <input name="nombre" required placeholder="John Smith" class="${inp}" style="${inpStyle}">
             </div>
             <div>
-              <label class="${lbl}">Tu email <span style="color:#2791ef">*</span></label>
-              <input name="email" type="email" required placeholder="juan@email.com" class="${inp}" style="${inpStyle}">
+              <label class="${lbl}">Your email <span style="color:#2791ef">*</span></label>
+              <input name="email" type="email" required placeholder="john@email.com" class="${inp}" style="${inpStyle}">
             </div>
           </div>
 
           <!-- CV upload -->
           <div>
-            <label class="${lbl}">Tu CV <span style="color:#2791ef">*</span></label>
+            <label class="${lbl}">Your CV <span style="color:#2791ef">*</span></label>
             <div style="border:2px dashed rgba(255,255,255,0.15);border-radius:12px;cursor:pointer;transition:border-color .2s"
               class="p-8 text-center hover:border-amber-500"
               onclick="document.getElementById('applyCvFile').click()"
@@ -3962,8 +3962,8 @@ function renderApply() {
               ondragleave="this.style.borderColor='rgba(255,255,255,0.15)'"
               ondrop="event.preventDefault();this.style.borderColor='rgba(255,255,255,0.15)';document.getElementById('applyCvFile').files=event.dataTransfer.files;document.getElementById('applyFileName').textContent=event.dataTransfer.files[0]?.name||''">
               <p class="text-3xl mb-3">📄</p>
-              <p class="text-white font-semibold text-sm">Arrastrá tu CV o hacé clic para subir</p>
-              <p class="text-gray-600 text-xs mt-1">PDF · Máx 10MB</p>
+              <p class="text-white font-semibold text-sm">Drag your CV or click to upload</p>
+              <p class="text-gray-600 text-xs mt-1">PDF · Max 10MB</p>
               <input type="file" id="applyCvFile" accept=".pdf" required class="hidden"
                 onchange="document.getElementById('applyFileName').textContent=this.files[0]?.name||''">
             </div>
@@ -3971,27 +3971,27 @@ function renderApply() {
             <p id="applyCvStatus" class="text-xs mt-1 text-center text-gray-400"></p>
           </div>
 
-          <!-- Expectativa salarial -->
+          <!-- Salary expectation -->
           <div>
-            <label class="${lbl}">Expectativa salarial <span style="color:#2791ef">*</span></label>
+            <label class="${lbl}">Salary expectation <span style="color:#2791ef">*</span></label>
             <input name="expectativa_salarial" required placeholder="${b.moneda==='USD'?'Ej: USD 3,500/mes':'Ej: $3.500.000 brutos/mes'}" class="${inp}" style="${inpStyle}">
           </div>
 
           ${preguntas.length?`
           <!-- Preguntas filtro (cargadas por el recruiter en el briefing) -->
           <div style="border-top:1px solid rgba(255,255,255,0.08)" class="pt-6 space-y-5">
-            <p class="text-xs font-bold uppercase tracking-widest text-gray-500">Preguntas rápidas</p>
+            <p class="text-xs font-bold uppercase tracking-widest text-gray-500">Quick questions</p>
             ${preguntas.map((p,i)=>`
             <div>
               <label class="${lbl}">${p}</label>
-              <input name="filtro_${i}" placeholder="Tu respuesta..." class="${inp}" style="${inpStyle}">
+              <input name="filtro_${i}" placeholder="Your answer..." class="${inp}" style="${inpStyle}">
             </div>`).join('')}
           </div>`:''}
 
           <button type="submit" id="applySubmitBtn"
             class="w-full py-4 rounded-xl font-black text-sm tracking-wide transition text-black hover:opacity-90"
             style="background:#2791ef">
-            Enviar postulación →
+            Submit application →
           </button>
         </form>
 
