@@ -3094,34 +3094,37 @@ async function descargarNotasCandidato(id) {
   const html=`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${c.nombre}</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1a1a1a;background:#fff;padding:56px 64px;max-width:780px;margin:0 auto}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1a1a1a;background:#fff;padding:56px 64px;max-width:800px;margin:0 auto}
 /* HEADER */
-.header{margin-bottom:36px;padding-bottom:28px;border-bottom:2.5px solid #1a1a1a}
-.header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
-.logo-badge{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#888;border:1.5px solid #ddd;border-radius:4px;padding:3px 8px;display:inline-block}
-.logo-date{font-size:11px;color:#aaa;margin-top:5px;text-align:right}
-.candidate-name{font-size:34px;font-weight:900;letter-spacing:-.8px;line-height:1.1;margin-bottom:8px}
+.header{margin-bottom:40px}
+.header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.logo-area{display:flex;align-items:center;gap:10px}
+.logo-area img{width:36px;height:auto}
+.logo-name{font-size:13px;font-weight:900;letter-spacing:.06em;color:#1a1a1a}
+.logo-sub{font-size:10px;font-weight:500;color:#999;letter-spacing:.08em;text-transform:uppercase}
+.header-date{font-size:11px;color:#aaa;text-align:right}
+.header-divider{height:3px;background:#f59e0b;border-radius:2px;margin-bottom:24px}
+.candidate-name{font-size:36px;font-weight:900;letter-spacing:-.8px;line-height:1.1;margin-bottom:8px}
 .candidate-role{font-size:15px;color:#555;font-weight:500;display:flex;align-items:center;gap:8px}
-.candidate-role .sep{color:#ccc}
-.candidate-company{font-weight:700;color:#333}
+.candidate-role .sep{color:#ddd}
+.candidate-company{font-weight:700;color:#1a1a1a}
 /* SECTIONS */
 .section{margin-bottom:34px}
-.sec-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:#bbb;margin-bottom:10px}
+.sec-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:#f59e0b;margin-bottom:10px}
 .sec-body{font-size:14px;line-height:1.9;color:#333;min-height:20px}
-.sec-body.large{font-size:14.5px;line-height:1.95}
 .bullets-edit{white-space:pre-wrap;font-size:14px;line-height:1.85;color:#333}
 /* CONTACT GRID */
 .contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
-.contact-item{padding:9px 0;border-bottom:1px solid #f0f0f0;display:flex;flex-direction:column;gap:2px}
+.contact-item{padding:9px 0;border-bottom:1px solid #f5f5f5;display:flex;flex-direction:column;gap:2px}
 .contact-item:nth-child(odd){padding-right:24px}
-.contact-key{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#ccc}
-.contact-val{font-size:13px;color:#444;font-weight:500}
-/* DIVIDER */
-.divider{border:none;border-top:1px solid #f0f0f0;margin:0 0 34px}
+.contact-key{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#f59e0b}
+.contact-val{font-size:13px;color:#333;font-weight:500}
 /* FOOTER */
-.footer{margin-top:52px;padding-top:14px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center}
-.footer-brand{font-size:11px;font-weight:800;color:#bbb;letter-spacing:.05em}
-.footer-ref{font-size:11px;color:#ccc}
+.footer{margin-top:52px;padding-top:16px;border-top:2px solid #f59e0b;display:flex;justify-content:space-between;align-items:center}
+.footer-left{display:flex;align-items:center;gap:8px}
+.footer-left img{width:20px;height:auto;opacity:.7}
+.footer-brand{font-size:10px;font-weight:800;color:#999;letter-spacing:.08em;text-transform:uppercase}
+.footer-ref{font-size:11px;color:#bbb}
 /* EDIT */
 [contenteditable]{outline:none;border-radius:2px;min-width:4px}
 [contenteditable]:hover{background:#fffbeb}
@@ -3129,8 +3132,8 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1a1a1a;backg
 /* TOOLBAR */
 .toolbar{position:fixed;top:0;left:0;right:0;background:#1a1a1a;color:#fff;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.25)}
 .toolbar-hint{font-size:11px;color:#9ca3af}
-.print-btn{background:#fff;color:#1a1a1a;border:none;padding:8px 20px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.02em}
-.print-btn:hover{background:#f3f4f6}
+.print-btn{background:#f59e0b;color:#1a1a1a;border:none;padding:8px 20px;border-radius:6px;font-size:12px;font-weight:800;cursor:pointer;letter-spacing:.02em}
+.print-btn:hover{background:#fbbf24}
 body{padding-top:108px}
 @media print{
   .toolbar{display:none}
@@ -3146,12 +3149,16 @@ body{padding-top:108px}
 
 <div class="header">
   <div class="header-top">
-    <div></div>
-    <div>
-      <div class="logo-badge" contenteditable="true">KBGB Recruiting</div>
-      <div class="logo-date" contenteditable="true">${fecha}</div>
+    <div class="logo-area">
+      <img src="https://kbgbrecruiting.github.io/logo.png" onerror="this.style.display='none'">
+      <div>
+        <div class="logo-name">KBGB</div>
+        <div class="logo-sub">Recruiting</div>
+      </div>
     </div>
+    <div class="header-date" contenteditable="true">${fecha}</div>
   </div>
+  <div class="header-divider"></div>
   <div class="candidate-name" contenteditable="true">${c.nombre}</div>
   <div class="candidate-role">
     <span contenteditable="true">${b.puesto||'—'}</span>
@@ -3189,7 +3196,10 @@ ${(()=>{
 </div>
 
 <div class="footer">
-  <span class="footer-brand" contenteditable="true">KBGB Recruiting</span>
+  <div class="footer-left">
+    <img src="https://kbgbrecruiting.github.io/logo.png" onerror="this.style.display='none'">
+    <span class="footer-brand">KBGB Recruiting</span>
+  </div>
   <span class="footer-ref" contenteditable="true">${b.puesto||''} · ${b.cliente||''}</span>
 </div>
 </body></html>`;
