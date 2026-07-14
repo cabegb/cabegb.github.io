@@ -30,7 +30,7 @@
 // ═══════════════════════════════════════════════════════════════
 const WEBHOOK = 'https://script.google.com/macros/s/AKfycbwatwNDls5stn3TpU5WM5zlYfo1013Cwkg4XRQcCWXzuOQBXpIKholW96eercCixC5ZNw/exec';
 
-const ETAPAS = ['Contactados','Entrevistados','Presentados','1ra entrevista cliente','2da entrevista cliente','Oferta','Contratado'];
+const ETAPAS = ['Postulaciones','Contactados','Entrevistados','Presentados','1ra entrevista cliente','2da entrevista cliente','Oferta','Contratado'];
 const ETAPAS_EXTRA = ['On hold','Descartado'];
 const TODAS_ETAPAS = [...ETAPAS, ...ETAPAS_EXTRA];
 
@@ -3924,6 +3924,18 @@ function renderApply() {
 
         <form id="applyForm" class="space-y-6" onsubmit="submitPostulacion(event,'${App._applyBid}')">
 
+          <!-- Nombre y email -->
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div>
+              <label class="${lbl}">Tu nombre <span style="color:#f59e0b">*</span></label>
+              <input name="nombre" required placeholder="Juan Pérez" class="${inp}" style="${inpStyle}">
+            </div>
+            <div>
+              <label class="${lbl}">Tu email <span style="color:#f59e0b">*</span></label>
+              <input name="email" type="email" required placeholder="juan@email.com" class="${inp}" style="${inpStyle}">
+            </div>
+          </div>
+
           <!-- CV upload -->
           <div>
             <label class="${lbl}">Tu CV <span style="color:#f59e0b">*</span></label>
@@ -4022,6 +4034,8 @@ async function submitPostulacion(e, bid) {
     const r = await apiPostPublic({ action:'nueva_postulacion', data:{
       busqueda_id:         bid,
       puesto:              App._applyData?.puesto || '',
+      nombre:              d.nombre || '',
+      email:               d.email || '',
       cv_text:             cvText,
       base64data:          base64,
       filename:            file.name,
