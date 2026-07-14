@@ -3156,10 +3156,9 @@ body{padding-top:108px}
 <div class="header">
   <div class="header-top">
     <div class="logo-area">
-      <img src="https://kbgbrecruiting.github.io/logo.png" onerror="this.style.display='none'">
-      <div>
-        <div class="logo-name">KBGB</div>
-        <div class="logo-sub">Recruiting</div>
+      <div style="background:#0d3560;padding:5px 10px;display:inline-flex;flex-direction:column;align-items:center;gap:1px">
+        <span style="color:#fff;font-weight:900;font-size:15px;letter-spacing:0.04em;line-height:1;font-family:system-ui,sans-serif">KBGB</span>
+        <span style="color:#fff;font-size:6px;letter-spacing:0.22em;font-weight:600;font-family:system-ui,sans-serif">RECRUITING</span>
       </div>
     </div>
     <div class="header-date" contenteditable="true">${fecha}</div>
@@ -3194,16 +3193,19 @@ ${(()=>{
   <div class="sec-label" contenteditable="true">Contact</div>
   <div class="contact-grid">
     ${c.contacto_email?`<div class="contact-item"><span class="contact-key" contenteditable="true">Email</span><span class="contact-val" contenteditable="true">${c.contacto_email}</span></div>`:''}
-    ${c.contacto_telefono?`<div class="contact-item"><span class="contact-key" contenteditable="true">Teléfono</span><span class="contact-val" contenteditable="true">${c.contacto_telefono}</span></div>`:''}
+    ${c.contacto_telefono?`<div class="contact-item"><span class="contact-key" contenteditable="true">Phone</span><span class="contact-val" contenteditable="true">${c.contacto_telefono}</span></div>`:''}
     ${c.linkedin?`<div class="contact-item"><span class="contact-key" contenteditable="true">LinkedIn</span><span class="contact-val" contenteditable="true">${c.linkedin}</span></div>`:''}
     ${expStr?`<div class="contact-item"><span class="contact-key" contenteditable="true">Salary expectation</span><span class="contact-val" contenteditable="true">${expStr}</span></div>`:''}
-    ${c.ubicacion?`<div class="contact-item"><span class="contact-key" contenteditable="true">Ubicación</span><span class="contact-val" contenteditable="true">${c.ubicacion}</span></div>`:''}
+    ${c.ubicacion?`<div class="contact-item"><span class="contact-key" contenteditable="true">Location</span><span class="contact-val" contenteditable="true">${c.ubicacion}</span></div>`:''}
   </div>
 </div>
 
 <div class="footer">
   <div class="footer-left">
-    <img src="https://kbgbrecruiting.github.io/logo.png" onerror="this.style.display='none'">
+    <div style="background:#0d3560;padding:3px 7px;display:inline-flex;flex-direction:column;align-items:center;gap:0px">
+      <span style="color:#fff;font-weight:900;font-size:9px;letter-spacing:0.04em;line-height:1;font-family:system-ui,sans-serif">KBGB</span>
+      <span style="color:#fff;font-size:4px;letter-spacing:0.2em;font-weight:600;font-family:system-ui,sans-serif">RECRUITING</span>
+    </div>
     <span class="footer-brand">KBGB Recruiting</span>
   </div>
   <span class="footer-ref" contenteditable="true">${b.puesto||''} · ${b.cliente||''}</span>
@@ -3864,9 +3866,11 @@ function renderApply() {
       <p class="text-5xl mb-5">✅</p>
       <p class="text-2xl font-black text-white mb-2">Application received!</p>
       <p class="text-gray-400 text-sm mb-8">We'll review your profile and be in touch soon.</p>
-      <div class="flex items-center justify-center gap-2">
-        <img src="logo.png" style="width:24px;height:auto" onerror="this.style.display='none'">
-        <span class="text-xs text-gray-600 font-semibold tracking-widest uppercase">KBGB Recruiting</span>
+      <div class="flex items-center justify-center">
+        <div style="background:#0d3560;padding:4px 8px;display:inline-flex;flex-direction:column;align-items:center;gap:1px">
+          <span style="color:#fff;font-weight:900;font-size:11px;letter-spacing:0.04em;line-height:1;font-family:system-ui,sans-serif">KBGB</span>
+          <span style="color:#fff;font-size:5px;letter-spacing:0.22em;font-weight:600;font-family:system-ui,sans-serif">RECRUITING</span>
+        </div>
       </div>
     </div>
   </div>`;
@@ -3899,9 +3903,10 @@ function renderApply() {
 
     <!-- NAV -->
     <nav style="background:#000;border-bottom:1px solid rgba(255,255,255,0.08)" class="px-6 py-4 flex items-center gap-3 sticky top-0 z-50">
-      <img src="logo.png" style="width:28px;height:auto" onerror="this.style.display='none'">
-      <span class="font-black text-white text-lg tracking-tight">KBGB</span>
-      <span class="text-gray-600 text-sm">Recruiting</span>
+      <div style="background:#0d3560;padding:5px 10px;display:inline-flex;flex-direction:column;align-items:center;gap:1px">
+        <span style="color:#fff;font-weight:900;font-size:15px;letter-spacing:0.04em;line-height:1;font-family:system-ui,sans-serif">KBGB</span>
+        <span style="color:#fff;font-size:6px;letter-spacing:0.22em;font-weight:600;font-family:system-ui,sans-serif">RECRUITING</span>
+      </div>
     </nav>
 
     <!-- HERO -->
@@ -3996,8 +4001,10 @@ function renderApply() {
         </form>
 
         <p class="text-center text-xs text-gray-700 mt-8">
-          <img src="logo.png" style="width:16px;height:auto;display:inline;vertical-align:middle;margin-right:4px" onerror="this.style.display='none'">
-          KBGB Recruiting · <a href="mailto:kbgb.recruiting@gmail.com" class="hover:text-gray-400 transition">kbgb.recruiting@gmail.com</a>
+          <span style="background:#0d3560;padding:2px 5px;display:inline-flex;flex-direction:column;align-items:center;gap:0px;vertical-align:middle;margin-right:5px">
+            <span style="color:#fff;font-weight:900;font-size:8px;letter-spacing:0.04em;line-height:1;font-family:system-ui,sans-serif">KBGB</span>
+            <span style="color:#fff;font-size:4px;letter-spacing:0.2em;font-weight:600;font-family:system-ui,sans-serif">RECRUITING</span>
+          </span>KBGB Recruiting · <a href="mailto:kbgb.recruiting@gmail.com" class="hover:text-gray-400 transition">kbgb.recruiting@gmail.com</a>
         </p>
       </div>
     </section>
