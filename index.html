@@ -273,8 +273,8 @@ function renderLanding() {
 
     <!-- HERO -->
     <section class="relative overflow-hidden" style="background:#000;display:flex;align-items:center">
-      <img src="hero-bg.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%;filter:grayscale(1) sepia(1) hue-rotate(180deg) saturate(3) brightness(0.55);z-index:0">
-      <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(90deg,#000 20%,rgba(0,0,0,0.8) 45%,rgba(0,0,0,0.3) 70%,transparent 100%);z-index:1"></div>
+      <img src="hero-bg.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 65%;filter:grayscale(1) sepia(1) hue-rotate(180deg) saturate(2.5) brightness(0.4);z-index:0">
+      <div class="absolute inset-0 pointer-events-none" style="background:linear-gradient(100deg,#000 0%,#000 40%,rgba(0,0,0,0.85) 55%,rgba(0,0,0,0.4) 75%,rgba(0,0,0,0.15) 100%);z-index:1"></div>
       <div class="max-w-6xl mx-auto px-6 py-16 md:py-24 w-full relative" style="z-index:10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
 
@@ -297,7 +297,7 @@ function renderLanding() {
           </div>
 
           <!-- RIGHT: diferenciales con íconos -->
-          <div class="grid grid-cols-1 gap-3">
+          <div class="grid grid-cols-1 gap-3" style="background:rgba(0,0,0,0.6);border-radius:12px;padding:16px">
             ${[
               { icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>`, label: isEN?'Global Reach':'Alcance Global', desc: isEN?'Access to talent across Latin America, US and Europe':'Acceso a talento en Latam, EEUU y Europa' },
               { icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="22" height="22"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`, label: isEN?'Senior Recruiters':'Recruiters Senior', desc: isEN?'10+ years placing high-impact talent':'10+ años colocando talento de alto impacto' },
