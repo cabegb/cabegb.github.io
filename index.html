@@ -266,6 +266,7 @@ function renderLanding() {
     <nav style="background:rgba(4,18,47,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1)" class="px-6 py-4 flex items-center justify-between sticky top-0 z-50">
       <img src="logo.png" style="height:38px;width:auto">
       <div class="flex items-center gap-3">
+        <a href="#contacto" style="background:#2563eb" class="text-white text-xs font-semibold px-4 py-2 rounded hover:opacity-90 transition hidden sm:inline-block">${isEN?'Get in touch →':'Contactanos →'}</a>
         <button onclick="toggleLandingLang()" class="text-xs px-3 py-1.5 rounded border border-white/20 text-gray-400 hover:text-white hover:border-white/50 transition">
           ${isEN?'🇦🇷 ES':'🇺🇸 EN'}
         </button>
