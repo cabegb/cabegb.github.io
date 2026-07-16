@@ -217,7 +217,7 @@ const LANDING_COPY = {
     form_sub: 'Completá el formulario y te contactamos en menos de 24hs.',
     f_empresa: 'Empresa', f_nombre: 'Tu nombre *', f_email: 'Email', f_wa: 'WhatsApp', f_wa_ph: 'Ej: +54 9 11 1234 5678',
     f_puesto: 'Puesto a cubrir', f_submit: 'Enviar consulta',
-    footer: '© 2025 KBGB Recruiting',
+    footer: 'KBGB Recruiting',
     contact: 'Contacto',
   },
   en: {
@@ -246,7 +246,7 @@ const LANDING_COPY = {
     form_sub: "Fill out the form and we'll get back to you within 24 business hours.",
     f_empresa: 'Company', f_nombre: 'Your name *', f_email: 'Email *', f_wa: 'WhatsApp', f_wa_ph: 'E.g. +1 305 123 4567',
     f_puesto: 'Role to fill', f_submit: 'Send inquiry',
-    footer: '© 2025 KBGB Recruiting',
+    footer: 'KBGB Recruiting',
     contact: 'Contact',
   }
 };
@@ -330,7 +330,7 @@ function renderLanding() {
         <div class="flex flex-col md:flex-row items-start gap-10">
           <!-- Foto + stats -->
           <div class="flex flex-col items-center mx-auto md:mx-0" style="flex-shrink:0">
-            <img src="agustin.jpeg" style="width:150px;height:150px;object-fit:cover;border-radius:50%;border:3px solid rgba(74,158,255,0.5)">
+            <img src="agustin.jpeg" style="width:150px;height:150px;object-fit:cover;object-position:center 15%;border-radius:50%;border:3px solid rgba(74,158,255,0.5)">
             <div class="grid grid-cols-2 gap-3 mt-6 w-full" style="min-width:220px">
               <div style="background:rgba(6,37,89,0.7);border:1px solid rgba(74,158,255,0.2);border-radius:8px;padding:12px" class="text-center">
                 <p class="text-white font-black text-lg">10+</p>
@@ -386,9 +386,19 @@ function renderLanding() {
       </div>
     </section>
 
-    <footer style="background:transparent;border-top:1px solid rgba(255,255,255,0.1);color:#a8c5e8" class="text-xs text-center py-6 px-4">
-      ${t.footer} · <a href="mailto:kbgb.recruiting@gmail.com" class="hover:text-white transition">kbgb.recruiting@gmail.com</a> · <a href="https://wa.me/5491153868807" target="_blank" class="hover:text-white transition">+54 9 11 5386 8807</a>
-      <span class="mx-2">·</span><a onclick="navigate('login')" href="#" class="hover:text-gray-500 transition" style="color:#1f2937">⚙</a>
+    <footer style="background:transparent;border-top:1px solid rgba(255,255,255,0.1)" class="px-6 py-10 text-center">
+      <img src="logo.png" style="height:36px;width:auto;margin:0 auto 16px">
+      <p class="text-sm font-bold text-white mb-4">KBGB Recruiting</p>
+      <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs" style="color:#a8c5e8">
+        <a href="mailto:kbgb.recruiting@gmail.com" class="hover:text-white transition">kbgb.recruiting@gmail.com</a>
+        <span style="color:rgba(255,255,255,0.2)">·</span>
+        <a href="https://wa.me/5491153868807" target="_blank" class="hover:text-white transition">+54 9 11 5386 8807</a>
+        <span style="color:rgba(255,255,255,0.2)">·</span>
+        <a href="https://www.linkedin.com/in/agustin-gonzalez-benegas-65a9a5173" target="_blank" class="hover:text-white transition">LinkedIn</a>
+      </div>
+      <div class="mt-8" style="color:rgba(255,255,255,0.08);font-size:10px">
+        <a onclick="navigate('login')" href="#" class="hover:opacity-40 transition" style="color:rgba(255,255,255,0.08)">⚙</a>
+      </div>
     </footer>
   </div>`;
 }
