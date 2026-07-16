@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://kbgbrecruiting.github.io">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/png" href="logo.png">
+<link rel="icon" type="image/png" href="favicon.png">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -280,19 +280,23 @@ function renderLanding() {
 
           <!-- LEFT: texto -->
           <div class="text-center md:text-left">
-            <p class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:#4a9eff">${t.role}</p>
-            <div class="flex items-center justify-center md:justify-start mb-2">
-              <img src="logo.png" style="height:80px;width:auto">
+            <p class="text-xs font-semibold uppercase tracking-widest mb-5" style="color:#4a9eff">${t.role}</p>
+            <div class="flex items-center justify-center md:justify-start mb-5">
+              <img src="logo.png" style="height:72px;width:auto">
             </div>
-            <div class="flex gap-0 my-5 justify-center md:justify-start">
-              <div style="height:3px;width:80px;background:linear-gradient(90deg,#2563eb,#60a5fa)"></div>
-              <div style="height:3px;width:30px;background:linear-gradient(90deg,#60a5fa,transparent)"></div>
-            </div>
-            <p class="text-base leading-relaxed max-w-lg" style="color:#a8c5e8">${t.bio}</p>
-
+            <h1 class="text-3xl md:text-4xl font-black text-white leading-tight mb-4">
+              ${isEN
+                ? 'Building High-Performing<br>Growth & Tech Teams <span style="color:#4a9eff">Worldwide.</span>'
+                : 'Construimos Equipos de Alto Rendimiento en todo el <span style="color:#4a9eff">Mundo.</span>'}
+            </h1>
+            <p class="text-sm leading-relaxed max-w-md" style="color:#a8c5e8">
+              ${isEN
+                ? '<span style="color:#4a9eff;font-weight:700">Lower fees</span> than traditional agencies. More personalized. Better results.'
+                : '<span style="color:#4a9eff;font-weight:700">Honorarios más bajos</span> que las agencias tradicionales. Más personalizado. Mejores resultados.'}
+            </p>
             <div class="flex gap-3 mt-8 flex-wrap justify-center md:justify-start">
               <a href="#contacto" style="background:#2563eb" class="text-white px-6 py-3 rounded font-semibold text-sm hover:opacity-90 transition">${isEN?'Get in touch →':'Contactanos →'}</a>
-              <a href="https://www.linkedin.com/in/agustin-gonzalez-benegas-65a9a5173" target="_blank" class="text-gray-400 border border-white/20 px-6 py-3 rounded font-semibold text-sm hover:text-white hover:border-white/50 transition">LinkedIn →</a>
+              <a href="https://www.linkedin.com/in/agustin-gonzalez-benegas-65a9a5173" target="_blank" class="border border-white/20 px-6 py-3 rounded font-semibold text-sm hover:text-white hover:border-white/50 transition" style="color:#a8c5e8">LinkedIn →</a>
             </div>
           </div>
 
@@ -321,17 +325,37 @@ function renderLanding() {
 
     <!-- QUIEN SOS -->
     <section style="background:transparent;border-top:1px solid rgba(255,255,255,0.1)" class="px-6 py-16">
-      <div class="max-w-3xl mx-auto flex flex-col md:flex-row items-center gap-10">
-        <img src="agustin.jpeg" style="width:140px;height:140px;object-fit:cover;border-radius:50%;border:3px solid rgba(74,158,255,0.5);flex-shrink:0">
-        <div>
-          <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#4a9eff">${isEN?'WHO YOU\'LL WORK WITH':'CON QUIEN VAS A TRABAJAR'}</p>
-          <h3 class="text-white text-xl font-black mb-1">Agustín González Benegas</h3>
-          <p class="text-sm mb-3" style="color:#a8c5e8">${isEN?'Founder · Senior Recruiter':'Fundador · Senior Recruiter'}</p>
-          <p class="text-sm leading-relaxed" style="color:#a8c5e8">${isEN
-            ? '10+ years of full-cycle recruiting experience across Growth Marketing and Tech verticals. Every search is handled personally — no account managers, no junior staff.'
-            : '10+ años de experiencia en recruiting end-to-end en verticales de Growth Marketing y Tech. Cada búsqueda la manejo yo personalmente.'
-          }</p>
-          <a href="https://www.linkedin.com/in/agustin-gonzalez-benegas-65a9a5173" target="_blank" class="inline-block mt-4 text-xs font-semibold border border-white/20 text-gray-400 px-4 py-2 rounded hover:text-white hover:border-white/50 transition">LinkedIn →</a>
+      <div class="max-w-4xl mx-auto">
+        <p class="text-xs font-bold uppercase tracking-widest mb-10 text-center" style="color:#4a9eff">${isEN?'WHO YOU\'LL WORK WITH':'CON QUIEN VAS A TRABAJAR'}</p>
+        <div class="flex flex-col md:flex-row items-start gap-10">
+          <!-- Foto + stats -->
+          <div class="flex flex-col items-center mx-auto md:mx-0" style="flex-shrink:0">
+            <img src="agustin.jpeg" style="width:150px;height:150px;object-fit:cover;border-radius:50%;border:3px solid rgba(74,158,255,0.5)">
+            <div class="grid grid-cols-2 gap-3 mt-6 w-full" style="min-width:220px">
+              <div style="background:rgba(6,37,89,0.7);border:1px solid rgba(74,158,255,0.2);border-radius:8px;padding:12px" class="text-center">
+                <p class="text-white font-black text-lg">10+</p>
+                <p class="text-xs" style="color:#a8c5e8">${isEN?'Years exp.':'Años exp.'}</p>
+              </div>
+              <div style="background:rgba(6,37,89,0.7);border:1px solid rgba(74,158,255,0.2);border-radius:8px;padding:12px" class="text-center">
+                <p class="text-white font-black text-lg">🌎</p>
+                <p class="text-xs" style="color:#a8c5e8">${isEN?'Global reach':'Alcance global'}</p>
+              </div>
+            </div>
+          </div>
+          <!-- Bio -->
+          <div>
+            <h3 class="text-white text-2xl font-black mb-1">Agustín González Benegas</h3>
+            <p class="text-sm mb-5" style="color:#4a9eff">Founder · Senior Recruiter · Tech & Performance Marketing</p>
+            <p class="text-sm leading-relaxed mb-4" style="color:#a8c5e8">${isEN
+              ? 'Senior Talent Acquisition professional with a demonstrated history recruiting top talent from all around the world. Full-cycle recruiting that meets and exceeds targeted hiring goals.'
+              : 'Profesional de Talent Acquisition con historial comprobado en la búsqueda de talento de alto nivel a nivel global. Recruiting end-to-end que supera los objetivos de contratación.'
+            }</p>
+            <p class="text-sm leading-relaxed mb-6" style="color:#a8c5e8">${isEN
+              ? 'From start-ups to established companies — building relationships that create win-wins for all involved. Specializing in Tech & Performance Marketing recruitment.'
+              : 'Desde startups hasta empresas consolidadas — construyendo relaciones que generan resultados para todos. Especialista en Tech & Performance Marketing.'
+            }</p>
+            <a href="https://www.linkedin.com/in/agustin-gonzalez-benegas-65a9a5173" target="_blank" class="inline-block text-xs font-semibold border border-white/20 px-4 py-2 rounded hover:text-white hover:border-white/50 transition" style="color:#a8c5e8">LinkedIn →</a>
+          </div>
         </div>
       </div>
     </section>
