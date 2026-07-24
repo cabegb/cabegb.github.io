@@ -3807,8 +3807,8 @@ async function submitBusqueda(e) {
   if(r.status==='ok'){
     showToast('Búsqueda creada ✓');
     closeModal();
-    // Si vino con briefing del PDF, ir directo al pipeline
-    if(briefingRaw) { App.data.busquedaActiva=busqueda.id; await loadSection('pipeline'); }
+    const newId = r.id || r.busqueda?.id || busqueda.id;
+    if(briefingRaw) { App.data.busquedaActiva=newId; await loadSection('pipeline'); }
     else await loadSection(leadId?'leads':'busquedas');
   } else showToast(r.message||'Error','error');
 }
