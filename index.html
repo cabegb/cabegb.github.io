@@ -705,7 +705,7 @@ function renderDashboard() {
         <div class="flex items-start justify-between gap-2 flex-wrap">
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2 flex-wrap">
-              <p class="text-sm font-semibold text-gray-900">${b.cliente} · ${b.puesto}</p>
+              <p class="text-sm font-semibold text-gray-900">${b.cliente||''} · ${b.puesto||''}</p>
               ${prioridadBadge(b.prioridad)}
               ${b.exclusividad==='compartida'?`<span class="text-xs text-orange-600 border border-orange-200 bg-orange-50 rounded-full px-2 py-0.5">Compartida</span>`:''}
             </div>
@@ -831,8 +831,8 @@ function renderBusquedaRow(b) {
     <div class="flex items-start justify-between gap-3 flex-wrap">
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-2 flex-wrap mb-1">
-          <span class="font-semibold">${b.cliente}</span><span class="text-gray-400">·</span>
-          <span class="text-gray-700">${b.puesto}</span>${b.seniority?`<span class="text-gray-400 text-sm">${b.seniority}</span>`:''}
+          <span class="font-semibold">${b.cliente||''}</span><span class="text-gray-400">·</span>
+          <span class="text-gray-700">${b.puesto||''}</span>${b.seniority?`<span class="text-gray-400 text-sm">${b.seniority}</span>`:''}
         </div>
         <div class="flex items-center gap-2 flex-wrap text-xs text-gray-500">
           ${estadoBadge(b.estado)}${prioridadBadge(b.prioridad)}
@@ -876,7 +876,7 @@ function renderPipeline() {
       <div class="flex items-center gap-2 flex-wrap">
         <select onchange="App.data.busquedaActiva=this.value; render()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-gray-900">
           <option value="todas" ${todas?'selected':''}>📋 Todas las búsquedas</option>
-          ${busquedas.map(b=>`<option value="${b.id}" ${b.id===bid&&!todas?'selected':''}>${b.cliente} · ${b.puesto}</option>`).join('')}
+          ${busquedas.map(b=>`<option value="${b.id}" ${b.id===bid&&!todas?'selected':''}>${b.cliente||''} · ${b.puesto||''}</option>`).join('')}
         </select>
         ${!todas?`<button onclick="openModal('nuevo_candidato',{busqueda_id:'${bid}'})" class="bg-gray-900 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-700 transition">+ Candidato</button>`:''}
       </div>
@@ -1211,7 +1211,7 @@ function renderIngresos() {
           <div class="flex items-start justify-between gap-3">
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 flex-wrap">
-                <p class="text-sm font-semibold text-gray-900">${b.cliente} · ${b.puesto}</p>
+                <p class="text-sm font-semibold text-gray-900">${b.cliente||''} · ${b.puesto||''}</p>
                 <span class="text-xs px-2 py-0.5 rounded-full font-medium ${b.exclusividad==='compartida'?'bg-orange-50 text-orange-700 border border-orange-200':'bg-green-50 text-green-700 border border-green-200'}">${b.exclusividad==='compartida'?'Compartida':'Exclusiva'}</span>
               </div>
               <div class="flex items-center gap-3 mt-1 flex-wrap">
@@ -1239,7 +1239,7 @@ function renderIngresos() {
       <p class="text-sm font-semibold text-red-800 mb-2">⚠️ ${sinFees.length} placement${sinFees.length>1?'s':''} sin fees cargados</p>
       ${sinFees.map(b=>`
         <div class="flex items-center justify-between bg-white rounded-lg px-3 py-2 border border-red-100 mb-2">
-          <span class="text-sm text-gray-700">${b.cliente} · ${b.puesto} <span class="text-xs text-gray-400">· ${b.candidato_placement||'—'}</span></span>
+          <span class="text-sm text-gray-700">${b.cliente||''} · ${b.puesto||''} <span class="text-xs text-gray-400">· ${b.candidato_placement||'—'}</span></span>
           <button onclick="openModal('completar_fees','${b.id}')" class="text-xs bg-red-600 text-white px-3 py-1 rounded-lg font-medium hover:bg-red-700 transition">Cargar fees →</button>
         </div>`).join('')}
     </div>`:''}
@@ -1265,7 +1265,7 @@ function renderIngresos() {
             <div class="px-4 py-3 ${sinFee?'bg-red-50':''}">
               <div class="flex items-start gap-3 flex-wrap">
                 <div class="flex-1 min-w-0">
-                  <p class="text-sm font-semibold text-gray-900">${b.cliente} · ${b.puesto}</p>
+                  <p class="text-sm font-semibold text-gray-900">${b.cliente||''} · ${b.puesto||''}</p>
                   <p class="text-xs text-gray-400 mt-0.5">
                     ${b.candidato_placement?b.candidato_placement+' · ':''}${fmtDate(b.fecha_cierre)}
                     ${b.fecha_ingreso_contratado?' · Ingreso '+fmtDate(b.fecha_ingreso_contratado):''}
@@ -1350,9 +1350,9 @@ function renderHistorial() {
             <div class="flex items-start justify-between gap-3 flex-wrap mb-2">
               <div>
                 <div class="flex items-center gap-2 mb-1 flex-wrap">
-                  <span class="font-semibold text-gray-900">${b.cliente}</span>
+                  <span class="font-semibold text-gray-900">${b.cliente||''}</span>
                   <span class="text-gray-400">·</span>
-                  <span class="text-gray-700">${b.puesto}</span>
+                  <span class="text-gray-700">${b.puesto||''}</span>
                   ${b.seniority?`<span class="text-gray-400 text-sm">${b.seniority}</span>`:''}
                 </div>
                 <div class="flex items-center gap-2 text-xs flex-wrap">
@@ -2677,7 +2677,7 @@ function modalCerrarBusqueda(bid) {
   <div class="p-6">
     ${modalHeader('Cerrar búsqueda sin placement')}
     <div class="bg-gray-50 border border-gray-100 rounded-xl p-3 mb-4">
-      <p class="text-sm font-semibold text-gray-800">${b.cliente} · ${b.puesto}</p>
+      <p class="text-sm font-semibold text-gray-800">${b.cliente||''} · ${b.puesto||''}</p>
     </div>
     <form onsubmit="submitCerrarBusqueda(event,'${bid}')" class="space-y-4">
       <div>
@@ -2943,7 +2943,7 @@ function renderSourcingContent(bid, s) {
         <textarea id="msgInteres" rows="6"
           oninput="autoSaveSourcing('${bid}','mensaje_interes',this.value)"
           class="w-full text-xs text-gray-800 bg-white border border-purple-100 rounded-lg p-3 leading-relaxed resize-none focus:outline-none mt-2">${s.mensaje_interes}</textarea>
-        ${b?.jd_pdf_url?`<p class="text-xs text-purple-600 mt-2">📎 JD para adjuntar: <a href="${b.jd_pdf_url}" target="_blank" class="underline">${b.puesto} · ${b.cliente}</a></p>`:'<p class="text-xs text-gray-400 mt-2">💡 No hay JD subida todavía — podés subirla desde el briefing.</p>'}
+        ${b?.jd_pdf_url?`<p class="text-xs text-purple-600 mt-2">📎 JD para adjuntar: <a href="${b.jd_pdf_url}" target="_blank" class="underline">${b.puesto||''} · ${b.cliente||''}</a></p>`:'<p class="text-xs text-gray-400 mt-2">💡 No hay JD subida todavía — podés subirla desde el briefing.</p>'}
       </div>`:''}
 
 
@@ -3667,7 +3667,7 @@ function modalConfirmarEliminarBusqueda(id) {
   <div class="p-6">
     ${modalHeader('Eliminar búsqueda')}
     <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-4">
-      <p class="text-sm font-semibold text-red-800">${b.cliente} · ${b.puesto}</p>
+      <p class="text-sm font-semibold text-red-800">${b.cliente||''} · ${b.puesto||''}</p>
       <p class="text-xs text-red-600 mt-1">Esto eliminará la búsqueda del sistema. Los candidatos asociados quedarán sin búsqueda.</p>
     </div>
     <form onsubmit="eliminarBusquedaConfirmada(event,'${id}')" class="space-y-4">
@@ -4022,7 +4022,7 @@ function renderApply() {
       <div class="max-w-2xl mx-auto">
         <p class="text-xs font-bold uppercase tracking-widest mb-4" style="color:#4a9eff">Open position</p>
         <h1 class="text-3xl md:text-4xl font-black text-white mb-3 leading-tight">${b.puesto||'Position'}</h1>
-        ${b.cliente?`<p class="font-medium" style="color:#a8c5e8 text-lg mb-5">${b.cliente}</p>`:''}
+        ${b.cliente?`<p class="font-medium" style="color:#a8c5e8 text-lg mb-5">${b.cliente||''}</p>`:''}
 
         <!-- Tags: seniority y modalidad solamente, sin banda salarial -->
         <div class="flex flex-wrap gap-2 mb-8">
