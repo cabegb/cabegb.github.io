@@ -1712,7 +1712,7 @@ async function ejecutarParseJD(bid) {
     }
     const r=await apiPost({action:'parsear_jd',data:{jd_text:jdText||'',notas_text:notasText||'',busqueda_id:bid}});
     if(r.status==='ok'){
-      App._parsedBriefing=r.data;
+      App._parsedBriefing=r.parsed||r.data||r;
       App.modal={type:'briefing',payload:bid};
       render();
       showToast('Briefing pre-llenado — revisá y guardá ✓');
